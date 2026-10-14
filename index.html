@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2a6e4b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stardew Pad">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>Stardew Command Pad & Finder</title>
+<style>
+:root{--bg:#fff8e8;--card:#fffef9;--text:#30261e;--muted:#786855;--line:#e7d5ad;--green:#2a6e4b;--gold:#e1a53d;--code:#28221e;--warn:#fff1e8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}body{min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+.app{max-width:900px;margin:auto;padding:10px 10px 40px}.hero{background:linear-gradient(145deg,#ffe79d,#ffd171);border:2px solid #db9d3b;border-radius:22px;padding:16px;box-shadow:0 8px 24px rgba(73,51,24,.08)}
+h1{font-size:24px;margin:0 0 5px}.sub{font-size:13px;line-height:1.5;color:#6d4e2d}.search{display:flex;gap:7px;margin-top:12px}.search input{flex:1;min-width:0;border:2px solid #a96f30;border-radius:14px;background:white;padding:13px 14px;font-size:18px;outline:none}.search input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(42,110,75,.11)}
+button{font:inherit;border:0;cursor:pointer;-webkit-appearance:none}.primary{background:var(--green);color:#fff;border-radius:13px;padding:11px 14px;font-weight:800;min-height:48px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{background:#fff9e6;color:#67491f;border:1px solid #dcb46d;border-radius:999px;padding:7px 10px;font-size:12px}
+.pad{margin:12px 0;background:#fffdf7;border:1px solid var(--line);border-radius:18px;padding:12px}.padTitle{font-size:17px;font-weight:900}.hint{font-size:11.5px;color:var(--muted);margin-top:2px}.tabs{display:flex;gap:6px;overflow:auto;padding:9px 0 7px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{flex:none;background:#f6eddc;border:1px solid #e3cfaa;color:#60492f;border-radius:999px;padding:7px 10px;font-size:11.5px;font-weight:850}.tab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.qbtn{min-height:70px;text-align:left;background:#fff;border:1px solid #e4d3b2;border-radius:14px;padding:10px}.qbtn:active{transform:scale(.985);background:#f8f2e7}.qbtn.warn{border-color:#e9b497;background:#fff6ef}.qtop{display:flex;gap:8px;align-items:center}.ico{font-size:22px}.qname{font-size:13.5px;font-weight:900}.qcmd{margin-top:6px;color:#6f604e;font:10.5px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:grid;grid-template-columns:1.4fr .7fr .8fr;gap:7px;margin:10px 0}.tools select,.tools input{width:100%;border:1px solid #d6bf92;border-radius:10px;background:#fff;padding:9px;font-size:14px}label{font-size:11px;color:var(--muted)}
+.info{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:9px 2px;color:var(--muted);font-size:12px}.link{background:transparent;color:var(--green);font-weight:800;padding:7px}.results{display:grid;gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px;box-shadow:0 4px 14px rgba(73,51,24,.05)}.card.warn{background:var(--warn)}
+.head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.title{font-size:16.5px;font-weight:850}.badge{flex:none;background:#e8f4ed;color:#246947;border-radius:999px;padding:4px 7px;font-size:10.5px;font-weight:800}.desc{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.cmdrow{display:flex;gap:6px;margin-top:9px}.cmd{flex:1;min-width:0;background:var(--code);color:#fff8e8;border-radius:11px;padding:11px;font:13.5px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:auto}.copy{min-width:76px;background:var(--green);color:#fff;border-radius:10px;padding:9px 11px;font-weight:800}.note{font-size:11.5px;color:#816e58;margin-top:7px}.empty{text-align:center;padding:28px 12px;color:var(--muted);border:1px dashed #ddc693;background:#fffdf6;border-radius:16px}.browse{width:100%;background:#f0e4c8;color:#63492e;border-radius:12px;padding:11px;font-weight:800}
+.install{margin-top:12px;background:#eff7f2;border:1px solid #c2decc;border-radius:15px;padding:11px;color:#3e654f;font-size:12px;line-height:1.5}.source{font-size:11px;text-align:center;color:#897866;margin-top:14px}
+@media(max-width:560px){.app{padding:8px 8px 34px}.search{display:block}.primary{width:100%;margin-top:6px}.cmdrow{display:block}.copy{width:100%;margin-top:5px}.tools{grid-template-columns:1fr 1fr}.tools .wide{grid-column:1/-1}}
+@media(max-width:370px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="hero">
+<h1>🌾 Stardew Command Pad & Finder</h1>
+<div class="sub">แตะคำสั่งที่ใช้บ่อย หรือค้น Item ID แล้ว Copy ไปใช้ใน Stardew บน iPhone ได้เลย</div>
+<form id="form" class="search"><input id="q" type="search" autocomplete="off" autocapitalize="none" placeholder="เช่น พืชโต, Pineapple 100, Galaxy Sword 1"><button class="primary">ค้นหา</button></form>
+<div class="chips">
+<button class="chip" type="button" data-fill="พืชโต">พืชโต</button>
+<button class="chip" type="button" data-fill="สัตว์โต">สัตว์โต</button>
+<button class="chip" type="button" data-fill="Pineapple 100">Pineapple</button>
+<button class="chip" type="button" data-fill="หยุดเวลา">หยุดเวลา</button>
+<button class="chip" type="button" data-fill="หัวใจ Abigail 10">หัวใจ 10</button>
+</div>
+</section>
+
+<section class="pad">
+<div class="padTitle">⚡ Command Pad</div>
+<div class="hint">แตะปุ่ม = Copy คำสั่งทันที</div>
+<div id="tabs" class="tabs"></div>
+<div id="grid" class="grid"></div>
+</section>
+
+<section>
+<div class="tools">
+<label class="wide">หมวด Item<select id="cat"><option value="all">ทุกหมวด</option><option value="objects">Objects</option><option value="weapons">Weapons</option><option value="tools">Tools</option><option value="bigcraftables">Big Craftables</option><option value="furniture">Furniture</option><option value="boots">Boots</option><option value="hats">Hats</option><option value="shirts">Shirts</option><option value="pants">Pants</option><option value="trinkets">Trinkets</option><option value="mannequins">Mannequins</option><option value="flooring">Flooring</option><option value="wallpaper">Wallpaper</option></select></label>
+<label>จำนวน<input id="qty" type="number" min="1" max="999" value="1"></label>
+<label>Quality<select id="quality"><option value="0">ปกติ</option><option value="1">Silver</option><option value="2">Gold</option><option value="4">Iridium</option></select></label>
+</div>
+<button id="browse" class="browse" type="button">ดู Item ในหมวด</button>
+</section>
+
+<div class="info"><span id="status">พร้อมใช้งาน</span><button id="clear" class="link" type="button">ล้าง</button></div>
+<main id="results" class="results"><div class="empty">แตะ Command Pad หรือพิมพ์สิ่งที่ต้องการด้านบน</div></main>
+<div class="install"><b>iPhone:</b> เปิดเว็บด้วย Safari → Share → <b>Add to Home Screen</b></div>
+<div class="source">Item IDs: Stardew IDs by Mateus Aquino</div>
+</div>
+
+<script>
+var $=function(s){return document.querySelector(s)}, results=$("#results"), statusEl=$("#status"), cache=new Map(), group="farm";
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]})}
+function norm(s){return String(s||"").trim().toLowerCase().replace(/\s+/g," ")}
+function status(s){statusEl.textContent=s}
+function copyText(t,b){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){flash(b)}).catch(function(){fallback(t,b)})}else fallback(t,b)}
+function fallback(t,b){var x=document.createElement("textarea");x.value=t;x.style.position="fixed";x.style.opacity="0";document.body.appendChild(x);x.select();try{document.execCommand("copy")}catch(e){}x.remove();flash(b)}
+function flash(b){if(!b)return;var old=b.textContent;b.textContent="✓ Copied";setTimeout(function(){b.textContent=old},900)}
+function card(title,desc,cmd,opt){opt=opt||{};return '<article class="card '+(opt.warn?"warn":"")+'"><div class="head"><div class="title">'+esc(title)+'</div><span class="badge">'+esc(opt.badge||"Command")+'</span></div><div class="desc">'+esc(desc||"")+'</div><div class="cmdrow"><div class="cmd">'+esc(cmd)+'</div><button class="copy" type="button" data-copy="'+encodeURIComponent(cmd)+'">Copy</button></div>'+(opt.note?'<div class="note">'+esc(opt.note)+'</div>':'')+'</article>'}
+
+var GROUPS=[
+{id:"farm",label:"🌱 ฟาร์ม",items:[
+["🌱","พืชโตทันที","/debug growcrops 999","เร่ง Crop ในพื้นที่ปัจจุบัน"],
+["🐄","สัตว์โต","/debug growanimals","ทำสัตว์ในพื้นที่เป็นวัยผู้ใหญ่"],
+["🍎","Fruit Tree โต","/debug fruittrees","เพิ่มอายุ Fruit Tree"],
+["🌳","Wild Tree โต","/debug growwildtrees","เร่ง Oak / Maple / Pine"]
+]},
+{id:"time",label:"⏱ เวลา/อากาศ",items:[
+["⏸️","หยุด / เดินเวลา","/debug pausetime","กดซ้ำเพื่อสลับ"],
+["🌙","ข้ามวัน","/debug sleep","จบวันปัจจุบัน"],
+["🌧️","ฝนตก","/debug rain","เรียกฝน"],
+["💚","Green Rain","/debug greenrain","เรียก Green Rain"]
+]},
+{id:"player",label:"🧑 ตัวละคร",items:[
+["❤️","HP เต็ม","/debug heal","ฟื้น Health"],
+["⚡","Energy เต็ม","/debug energize","ฟื้น Energy"],
+["🛡️","อมตะ","/debug invincible","สลับไม่รับดาเมจ"],
+["🏠","กลับบ้าน","/debug wh","วาร์ปกลับบ้าน"]
+]},
+{id:"build",label:"🏗 บ้าน/ก่อสร้าง",items:[
+["🏗️","สร้างอาคารเสร็จ","/debug fab","ทำอาคารที่กำลังก่อสร้างเสร็จทั้งหมด",true],
+["🛋️","Renovate บ้าน","/debug renovate","เปิดเมนูปรับปรุงบ้าน"],
+["🎒","กระเป๋า 36 ช่อง","/debug backpack 36","ตั้งช่องกระเป๋า"],
+["💰","เงิน 1,000,000","/debug money 1000000","ตั้งเงิน"]
+]},
+{id:"tools",label:"🧰 เครื่องมือ",items:[
+["📍","ดูพิกัด","/debug ppp","แสดง Tile ปัจจุบัน"],
+["🔄","รีโหลดพื้นที่","/debug r","รีโหลด Location"],
+["🔎","ค้น Debug","/debug search ","เติมคำค้นต่อท้าย"],
+["🍷","เครื่องผลิตเสร็จ","/debug rfh X Y","แทน X Y ด้วยพิกัดเครื่อง"]
+]}
+];
+
+function renderPad(){var tabs=$("#tabs"),grid=$("#grid");tabs.innerHTML=GROUPS.map(function(g){return '<button class="tab '+(g.id===group?"on":"")+'" type="button" data-group="'+g.id+'">'+g.label+'</button>'}).join("");var g=GROUPS.find(function(x){return x.id===group})||GROUPS[0];grid.innerHTML=g.items.map(function(x){return '<button class="qbtn '+(x[4]?"warn":"")+'" type="button" data-cmd="'+encodeURIComponent(x[2])+'" data-name="'+encodeURIComponent(x[1])+'" data-desc="'+encodeURIComponent(x[3])+'"><div class="qtop"><span class="ico">'+x[0]+'</span><span class="qname">'+x[1]+'</span></div><div class="qcmd">'+esc(x[2])+'</div></button>'}).join("")}
+
+function natural(s){var l=norm(s),m;
+if(/พืช.*โต|โต.*พืช|grow\s*crops?/.test(l))return card("พืชโตทันที","เร่ง Crop ในพื้นที่ปัจจุบัน","/debug growcrops 999",{badge:"Farm"});
+if(/สัตว์.*โต|โต.*สัตว์|grow\s*animals?/.test(l))return card("สัตว์โต","ทำสัตว์ในพื้นที่เป็นวัยผู้ใหญ่","/debug growanimals",{badge:"Farm"});
+if(/fruit\s*tree|ต้นไม้ผลไม้|ต้นผลไม้/.test(l))return card("Fruit Tree โต","เพิ่มอายุ Fruit Tree","/debug fruittrees",{badge:"Farm"});
+if(/wild\s*tree|ต้นไม้ป่า/.test(l))return card("Wild Tree โต","เร่งต้นไม้ป่า","/debug growwildtrees",{badge:"Farm"});
+if(/หยุดเวลา|pausetime/.test(l))return card("หยุด / เดินเวลา","กดซ้ำเพื่อสลับ","/debug pausetime");
+if(/ข้ามวัน|sleep/.test(l))return card("ข้ามวัน","จบวันปัจจุบัน","/debug sleep");
+if(/ฝนเขียว|green\s*rain/.test(l))return card("Green Rain","เรียก Green Rain","/debug greenrain");
+if(/ฝนตก|^rain$/.test(l))return card("ฝนตก","เรียกฝน","/debug rain");
+if(/กลับบ้าน|warp home/.test(l))return card("กลับบ้าน","วาร์ปกลับบ้าน","/debug wh");
+if(/รักษา|ฮีล|heal/.test(l))return card("HP เต็ม","ฟื้น Health","/debug heal");
+if(/พลังงาน|energize/.test(l))return card("Energy เต็ม","ฟื้น Energy","/debug energize");
+if(/อมตะ|invincible/.test(l))return card("Invincible","สลับไม่รับดาเมจ","/debug invincible");
+if(/สร้าง.*บ่อปลา|บ่อปลา|fish\s*pond/.test(l))return card("Fish Pond","Stone 200 + Seaweed 5 + Green Algae 5 แล้วไป Robin วางบ่อ","/item 390 200 0",{badge:"Fish Pond",note:"ต่อด้วย /item 152 5 0 และ /item 153 5 0 แล้วใช้ /debug fab หลังวางอาคาร"});
+if(/tea\s*sapling|ต้นชา|ชา.*โต/.test(l))return card("Tea Sapling","ไม่มี Debug ตรงสำหรับเร่ง Tea Bush","/item 815 100 0",{badge:"Tea",warn:true,note:"คำสั่งนี้เสก Tea Leaves ×100"});
+if(/pineapple\s*wine|ไวน์สับปะรด/.test(l)){m=s.match(/(\d{1,3})\s*$/);return card("Pineapple Wine","Flavored Wine จาก Pineapple","/item (O)348/832 "+(m?m[1]:"1")+" 0",{badge:"Item"})}
+if((m=s.match(/(?:เงิน|money)\s*([0-9,]+)/i)))return card("ตั้งเงิน","ตั้งเงินเป็น "+m[1]+"g","/debug money "+m[1].replace(/,/g,""));
+if((m=s.match(/(?:หัวใจ|heart)\s+([A-Za-z]+)\s+(\d+)/i))){var p=Number(m[2])*250;return card("หัวใจ "+m[1]+" "+m[2],"Friendship "+p+" points","/debug friendship "+m[1]+" "+p,{badge:"Relationship"})}
+if((m=s.match(/(?:เครื่อง|keg|jar|cask).*?(?:เสร็จ|พร้อม).*?(\d+)\s+(\d+)/i)))return card("เครื่องผลิตเสร็จ","พิกัด "+m[1]+", "+m[2],"/debug rfh "+m[1]+" "+m[2],{badge:"Machine"});
+return ""}
+
+var CATS={
+objects:["objects.json",""],weapons:["weapons.json","(W)"],tools:["tools.json","(T)"],bigcraftables:["big-craftables.json","(BC)"],furniture:["furniture.json","(F)"],boots:["boots.json","(B)"],hats:["hats.json","(H)"],shirts:["shirts.json","(S)"],pants:["pants.json","(P)"],trinkets:["trinkets.json","(TR)"],mannequins:["mannequins.json","(M)"],flooring:["flooring.json","(FL)"],wallpaper:["wallpaper.json","(WP)"]
+};
+var aliases={"สับปะรด":"Pineapple","เมล็ดสับปะรด":"Pineapple Seeds","แท่งอิริเดียม":"Iridium Bar","อิริเดียมบาร์":"Iridium Bar","ดาบกาแล็กซี":"Galaxy Sword","ไม้":"Wood","หิน":"Stone","ถ่านหิน":"Coal","ไม้เนื้อแข็ง":"Hardwood"};
+async function loadCat(k){if(cache.has(k))return cache.get(k);var m=CATS[k],urls=["https://mateusaquino.github.io/stardewids/dist/"+m[0],"https://raw.githubusercontent.com/MateusAquino/stardewids/main/dist/"+m[0]];for(var u of urls){try{var r=await fetch(u,{cache:"force-cache"});if(!r.ok)throw 0;var a=await r.json();var rows=a.map(function(x){var names=x.names||{},name=names["data-en-US"]||Object.values(names).find(Boolean)||String(x.id);return{name:name,id:String(x.id),qid:m[1]+String(x.id),cat:k}});cache.set(k,rows);return rows}catch(e){}}throw new Error("โหลด Item ID ไม่สำเร็จ")}
+function parse(text){var name=text.trim(),qty=Math.max(1,Math.min(999,Number($("#qty").value)||1)),m=name.match(/^(.*?)\s+(\d{1,4})$/);if(m&&m[1].trim()){name=m[1].trim();qty=Math.max(1,Math.min(999,Number(m[2])))}name=aliases[norm(name)]||name;return{name:name,qty:qty}}
+async function searchItems(text){var p=parse(text),q=norm(p.name),keys=$("#cat").value==="all"?Object.keys(CATS):[$("#cat").value];results.innerHTML='<div class="empty">กำลังค้น Item ID…</div>';status("กำลังค้น…");try{var exact=[],starts=[],partial=[];for(var k of keys){var rows=await loadCat(k);for(var x of rows){var n=norm(x.name);if(n===q||x.id===q||norm(x.qid)===q)exact.push(x);else if(n.startsWith(q))starts.push(x);else if(n.includes(q))partial.push(x)}if(exact.length)break}var arr=exact.concat(starts,partial).slice(0,60);if(!arr.length){results.innerHTML='<div class="empty">ไม่พบ Item ID</div>';status("ไม่พบ");return}var qual=Number($("#quality").value)||0;results.innerHTML=arr.map(function(x){return card(x.name,"Item "+x.id+" • "+x.cat,"/item "+x.qid+" "+p.qty+" "+qual,{badge:"Item ID"})}).join("");status("พบ "+arr.length+" รายการ")}catch(e){results.innerHTML='<div class="empty">โหลด Item ID ไม่สำเร็จ</div>';status("เกิดข้อผิดพลาด")}}
+async function browse(){var k=$("#cat").value==="all"?"objects":$("#cat").value;results.innerHTML='<div class="empty">กำลังโหลด…</div>';try{var rows=(await loadCat(k)).slice(0,80),qty=Math.max(1,Math.min(999,Number($("#qty").value)||1)),qual=Number($("#quality").value)||0;results.innerHTML=rows.map(function(x){return card(x.name,"Item "+x.id,"/item "+x.qid+" "+qty+" "+qual,{badge:"Item ID"})}).join("");status("แสดง "+rows.length+" รายการ")}catch(e){results.innerHTML='<div class="empty">โหลดไม่สำเร็จ</div>'}}
+function run(){var s=$("#q").value.trim();if(!s)return;var n=natural(s);if(n){results.innerHTML=n;status("พบคำสั่งพร้อมใช้");return}searchItems(s)}
+
+$("#tabs").onclick=function(e){var b=e.target.closest("[data-group]");if(!b)return;group=b.dataset.group;renderPad()};
+$("#grid").onclick=function(e){var b=e.target.closest("[data-cmd]");if(!b)return;var cmd=decodeURIComponent(b.dataset.cmd),name=decodeURIComponent(b.dataset.name),desc=decodeURIComponent(b.dataset.desc);results.innerHTML=card(name,desc,cmd,{badge:"Quick"});status("Copy แล้ว: "+name);copyText(cmd,b)};
+$("#form").onsubmit=function(e){e.preventDefault();run()};
+document.querySelectorAll("[data-fill]").forEach(function(b){b.onclick=function(){$("#q").value=b.dataset.fill;run()}});
+$("#browse").onclick=browse;
+$("#clear").onclick=function(){$("#q").value="";results.innerHTML='<div class="empty">แตะ Command Pad หรือพิมพ์สิ่งที่ต้องการด้านบน</div>';status("พร้อมใช้งาน")};
+results.onclick=function(e){var b=e.target.closest("[data-copy]");if(b)copyText(decodeURIComponent(b.dataset.copy),b)};
+renderPad();
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})});
+</script>
+</body>
+</html>

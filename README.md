@@ -8,3 +8,13 @@
 - Item data ดึงจาก Stardew IDs ของ Mateus Aquino
 
 GitHub Pages จะ deploy อัตโนมัติเมื่อ push ไปที่ branch `main`.
+
+
+## Full Debug Catalog
+
+- รวม 349 debug commands จาก Stardew Valley Wiki
+- แปลคำอธิบายไทยและจัดหมวดหมู่
+- ค้นด้วยชื่อคำสั่ง, alias, คำอธิบาย หรือหมวด
+- มี Debug Catalog ให้เลือกดูทีละหมวด
+- ทำเครื่องหมายคำสั่งเสี่ยงที่อาจแก้หรือลบข้อมูลในเซฟ
+- Quick Command Pad แยกปุ่มที่ใช้บ่อยเพื่อใช้งานบน iPhone ได้เร็ว

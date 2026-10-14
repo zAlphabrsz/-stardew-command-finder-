@@ -1,0 +1,8 @@
+{
+  "name": "Stardew Command Pad & Finder",
+  "short_name": "Stardew Pad",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff8e8",
+  "theme_color": "#2a6e4b"
+}

@@ -2,151 +2,560 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
 <meta name="theme-color" content="#2a6e4b">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Stardew Pad">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Stardew Finder">
 <link rel="manifest" href="./manifest.webmanifest">
 <title>Stardew Command Pad & Finder</title>
 <style>
-:root{--bg:#fff8e8;--card:#fffef9;--text:#30261e;--muted:#786855;--line:#e7d5ad;--green:#2a6e4b;--gold:#e1a53d;--code:#28221e;--warn:#fff1e8}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}body{min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
-.app{max-width:900px;margin:auto;padding:10px 10px 40px}.hero{background:linear-gradient(145deg,#ffe79d,#ffd171);border:2px solid #db9d3b;border-radius:22px;padding:16px;box-shadow:0 8px 24px rgba(73,51,24,.08)}
-h1{font-size:24px;margin:0 0 5px}.sub{font-size:13px;line-height:1.5;color:#6d4e2d}.search{display:flex;gap:7px;margin-top:12px}.search input{flex:1;min-width:0;border:2px solid #a96f30;border-radius:14px;background:white;padding:13px 14px;font-size:18px;outline:none}.search input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(42,110,75,.11)}
-button{font:inherit;border:0;cursor:pointer;-webkit-appearance:none}.primary{background:var(--green);color:#fff;border-radius:13px;padding:11px 14px;font-weight:800;min-height:48px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{background:#fff9e6;color:#67491f;border:1px solid #dcb46d;border-radius:999px;padding:7px 10px;font-size:12px}
-.pad{margin:12px 0;background:#fffdf7;border:1px solid var(--line);border-radius:18px;padding:12px}.padTitle{font-size:17px;font-weight:900}.hint{font-size:11.5px;color:var(--muted);margin-top:2px}.tabs{display:flex;gap:6px;overflow:auto;padding:9px 0 7px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{flex:none;background:#f6eddc;border:1px solid #e3cfaa;color:#60492f;border-radius:999px;padding:7px 10px;font-size:11.5px;font-weight:850}.tab.on{background:var(--green);color:#fff;border-color:var(--green)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.qbtn{min-height:70px;text-align:left;background:#fff;border:1px solid #e4d3b2;border-radius:14px;padding:10px}.qbtn:active{transform:scale(.985);background:#f8f2e7}.qbtn.warn{border-color:#e9b497;background:#fff6ef}.qtop{display:flex;gap:8px;align-items:center}.ico{font-size:22px}.qname{font-size:13.5px;font-weight:900}.qcmd{margin-top:6px;color:#6f604e;font:10.5px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tools{display:grid;grid-template-columns:1.4fr .7fr .8fr;gap:7px;margin:10px 0}.tools select,.tools input{width:100%;border:1px solid #d6bf92;border-radius:10px;background:#fff;padding:9px;font-size:14px}label{font-size:11px;color:var(--muted)}
-.info{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:9px 2px;color:var(--muted);font-size:12px}.link{background:transparent;color:var(--green);font-weight:800;padding:7px}.results{display:grid;gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px;box-shadow:0 4px 14px rgba(73,51,24,.05)}.card.warn{background:var(--warn)}
-.head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.title{font-size:16.5px;font-weight:850}.badge{flex:none;background:#e8f4ed;color:#246947;border-radius:999px;padding:4px 7px;font-size:10.5px;font-weight:800}.desc{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
-.cmdrow{display:flex;gap:6px;margin-top:9px}.cmd{flex:1;min-width:0;background:var(--code);color:#fff8e8;border-radius:11px;padding:11px;font:13.5px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:auto}.copy{min-width:76px;background:var(--green);color:#fff;border-radius:10px;padding:9px 11px;font-weight:800}.note{font-size:11.5px;color:#816e58;margin-top:7px}.empty{text-align:center;padding:28px 12px;color:var(--muted);border:1px dashed #ddc693;background:#fffdf6;border-radius:16px}.browse{width:100%;background:#f0e4c8;color:#63492e;border-radius:12px;padding:11px;font-weight:800}
-.install{margin-top:12px;background:#eff7f2;border:1px solid #c2decc;border-radius:15px;padding:11px;color:#3e654f;font-size:12px;line-height:1.5}.source{font-size:11px;text-align:center;color:#897866;margin-top:14px}
-@media(max-width:560px){.app{padding:8px 8px 34px}.search{display:block}.primary{width:100%;margin-top:6px}.cmdrow{display:block}.copy{width:100%;margin-top:5px}.tools{grid-template-columns:1fr 1fr}.tools .wide{grid-column:1/-1}}
-@media(max-width:370px){.grid{grid-template-columns:1fr}}
+:root{
+  --bg:#fff9e9;--card:#fffef8;--text:#30261e;--muted:#786855;--line:#e7d5ad;
+  --green:#2a6e4b;--gold:#e1a53d;--code:#28221e;--warn:#fff0e6;--danger:#a54131;
+  --shadow:0 8px 24px rgba(73,51,24,.08)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}
+body{min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+.app{max-width:900px;margin:auto;padding:10px 10px 38px}
+.hero{background:linear-gradient(145deg,#ffe79d,#ffd171);border:2px solid #db9d3b;border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+h1{font-size:24px;margin:0 0 5px}.subtitle{font-size:13.5px;line-height:1.5;color:#6d4e2d;margin:0}
+.search{display:flex;gap:7px;margin-top:13px}
+.search input{flex:1;min-width:0;border:2px solid #a96f30;border-radius:14px;background:white;color:#28211b;padding:13px 14px;font-size:18px;outline:none;-webkit-appearance:none}
+.search input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(42,110,75,.11)}
+button{font:inherit;border:0;cursor:pointer;-webkit-appearance:none}
+.primary{background:var(--green);color:white;border-radius:13px;padding:11px 14px;font-weight:800;min-height:48px}
+.primary:active,.copy:active,.chip:active{transform:scale(.98)}
+.modeRow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:11px 0 6px}
+.mode{background:#fffaf0;border:1px solid var(--line);border-radius:11px;padding:9px 6px;font-size:12.5px;font-weight:800;color:#664d31}
+.mode.on{background:var(--green);color:#fff;border-color:var(--green)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{background:#fff9e6;color:#67491f;border:1px solid #dcb46d;border-radius:999px;padding:7px 10px;font-size:12px}
+.tools{display:grid;grid-template-columns:1.4fr .7fr .8fr;gap:7px;margin:10px 0}
+.tools select,.tools input{width:100%;border:1px solid #d6bf92;border-radius:10px;background:#fff;color:#30261e;padding:9px;font-size:14px}
+label{font-size:11px;color:var(--muted);line-height:1.3}
+.info{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:9px 2px;color:var(--muted);font-size:12px}
+.linkBtn{background:transparent;color:var(--green);font-weight:800;padding:7px}
+.results{display:grid;gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:13px;box-shadow:0 4px 14px rgba(73,51,24,.05)}
+.card.warn{background:var(--warn);border-color:#e9b497}
+.head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.title{font-size:16.5px;font-weight:850;line-height:1.35}
+.badge{flex:none;background:#e8f4ed;color:#246947;border-radius:999px;padding:4px 7px;font-size:10.5px;font-weight:800}
+.desc{font-size:13px;line-height:1.5;color:var(--muted);margin-top:4px}
+.ids{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.pill{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f4eddf;border:1px solid #e3d2b4;border-radius:8px;padding:5px 7px}
+.cmdrow{display:flex;gap:6px;margin-top:9px}.cmd{flex:1;min-width:0;background:var(--code);color:#fff8e8;border-radius:11px;padding:11px;font:13.5px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:auto}
+.copy{min-width:76px;background:var(--green);color:#fff;border-radius:10px;padding:9px 11px;font-weight:800;font-size:13px}
+.note{font-size:11.5px;line-height:1.45;color:#816e58;margin-top:7px}.step{display:inline-block;background:var(--green);color:#fff;border-radius:999px;padding:2px 7px;font-size:10px;margin-right:5px}
+.empty,.loading{text-align:center;padding:28px 12px;color:var(--muted);border:1px dashed #ddc693;background:#fffdf6;border-radius:16px}.spinner{display:inline-block;width:17px;height:17px;border:2px solid #d6c5a7;border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-4px;margin-right:5px}@keyframes spin{to{transform:rotate(360deg)}}
+.browse{width:100%;background:#f0e4c8;color:#63492e;border-radius:12px;padding:11px;font-weight:800;margin-top:7px}.error{color:var(--danger)}
+.install{margin-top:12px;background:#eff7f2;border:1px solid #c2decc;border-radius:15px;padding:11px;color:#3e654f;font-size:12px;line-height:1.5}
+.source{font-size:11px;text-align:center;color:#897866;margin-top:14px;line-height:1.5}
+
+.commandPad{margin:12px 0 4px;background:#fffdf7;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 4px 14px rgba(73,51,24,.05)}
+.padHead{display:flex;justify-content:space-between;gap:8px;align-items:flex-end;margin-bottom:9px}
+.padTitle{font-size:17px;font-weight:900}.padHint{font-size:11.5px;color:var(--muted)}
+.padTabs{display:flex;gap:6px;overflow:auto;padding-bottom:7px;scrollbar-width:none}.padTabs::-webkit-scrollbar{display:none}
+.padTab{flex:none;background:#f6eddc;border:1px solid #e3cfaa;color:#60492f;border-radius:999px;padding:7px 10px;font-size:11.5px;font-weight:850}
+.padTab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.quickGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.quickBtn{min-height:70px;text-align:left;background:#fff;border:1px solid #e4d3b2;border-radius:14px;padding:10px;box-shadow:0 2px 7px rgba(73,51,24,.04)}
+.quickBtn:active{transform:scale(.985);background:#f8f2e7}
+.quickTop{display:flex;gap:8px;align-items:center}.quickIcon{font-size:22px;line-height:1}.quickName{font-size:13.5px;font-weight:900;line-height:1.25}
+.quickCmd{margin-top:6px;color:#6f604e;font:10.5px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quickWarn{border-color:#e9b497;background:#fff6ef}
+@media(max-width:370px){.quickGrid{grid-template-columns:1fr}}
+.catalogBox{margin:12px 0;background:#fffdf7;border:1px solid var(--line);border-radius:18px;padding:12px}
+.catalogHead{display:flex;justify-content:space-between;gap:8px;align-items:flex-end;margin-bottom:8px}
+.catalogTitle{font-size:17px;font-weight:900}.catalogMeta{font-size:11.5px;color:var(--muted)}
+.catalogControls{display:grid;grid-template-columns:1fr auto;gap:7px}
+.catalogControls select{width:100%;border:1px solid #d6bf92;border-radius:11px;background:#fff;color:#30261e;padding:10px;font-size:14px}
+.catalogBtn{background:#74542d;color:white;border-radius:11px;padding:10px 12px;font-weight:800}
+.dangerBadge{display:inline-block;background:#a54131;color:#fff;border-radius:999px;padding:2px 6px;font-size:10px;font-weight:800;margin-left:5px}
+
+@media(max-width:560px){
+ .app{padding:8px 8px 34px}.hero{padding:14px;border-radius:20px}
+ .search{display:block}.primary{width:100%;margin-top:6px}.cmdrow{display:block}.copy{width:100%;margin-top:5px}
+ .tools{grid-template-columns:1fr 1fr}.tools .wide{grid-column:1/-1}
+}
 </style>
 </head>
 <body>
 <div class="app">
 <section class="hero">
-<h1>🌾 Stardew Command Pad & Finder</h1>
-<div class="sub">แตะคำสั่งที่ใช้บ่อย หรือค้น Item ID แล้ว Copy ไปใช้ใน Stardew บน iPhone ได้เลย</div>
-<form id="form" class="search"><input id="q" type="search" autocomplete="off" autocapitalize="none" placeholder="เช่น พืชโต, Pineapple 100, Galaxy Sword 1"><button class="primary">ค้นหา</button></form>
-<div class="chips">
-<button class="chip" type="button" data-fill="พืชโต">พืชโต</button>
-<button class="chip" type="button" data-fill="สัตว์โต">สัตว์โต</button>
-<button class="chip" type="button" data-fill="Pineapple 100">Pineapple</button>
-<button class="chip" type="button" data-fill="หยุดเวลา">หยุดเวลา</button>
-<button class="chip" type="button" data-fill="หัวใจ Abigail 10">หัวใจ 10</button>
+  <h1>🌾 Stardew Command Pad & Finder</h1>
+  <p class="subtitle">แตะคำสั่งที่ใช้บ่อย หรือพิมพ์ค้นหา Item/Debug → Copy ไปใช้ในเกมได้เลย</p>
+
+  <form id="searchForm" class="search">
+    <input id="query" type="search" autocomplete="off" autocapitalize="none"
+      placeholder="เช่น พืชโต, สัตว์โต, Iridium Bar 50, หัวใจ Abigail 10">
+    <button class="primary" type="submit">ค้นหา</button>
+  </form>
+
+  <div class="modeRow">
+    <button class="mode on" type="button" data-mode="auto">✨ อัตโนมัติ</button>
+    <button class="mode" type="button" data-mode="command">⌨️ คำสั่ง</button>
+    <button class="mode" type="button" data-mode="item">🎒 Item ID</button>
+  </div>
+
+  <div class="chips">
+    <button class="chip" type="button" data-q="Iridium Bar 50">Iridium Bar 50</button>
+    <button class="chip" type="button" data-q="Galaxy Sword 1">Galaxy Sword</button>
+    <button class="chip" type="button" data-q="พืชโต">พืชโต</button>
+    <button class="chip" type="button" data-q="สัตว์โต">สัตว์โต</button>
+    <button class="chip" type="button" data-q="หยุดเวลา">หยุดเวลา</button>
+    <button class="chip" type="button" data-q="หัวใจ Abigail 10">หัวใจ 10</button>
+    <button class="chip" type="button" data-q="สร้างบ่อปลา">บ่อปลา</button>
+  </div>
+</section>
+
+<section class="commandPad">
+  <div class="padHead">
+    <div>
+      <div class="padTitle">⚡ Command Pad</div>
+      <div class="padHint">แตะปุ่ม = Copy คำสั่งทันที</div>
+    </div>
+  </div>
+  <div id="padTabs" class="padTabs"></div>
+  <div id="quickGrid" class="quickGrid"></div>
+</section>
+
+<section class="catalogBox">
+  <div class="catalogHead">
+    <div>
+      <div class="catalogTitle">📚 Debug Catalog</div>
+      <div class="catalogMeta">349 คำสั่งจาก Stardew Valley Wiki • เลือกหมวดแล้วแตะ Copy</div>
+    </div>
+  </div>
+  <div class="catalogControls">
+    <select id="debugCategory"><option value="all">ทุกหมวด</option></select>
+    <button id="debugBrowseBtn" class="catalogBtn" type="button">ดูคำสั่ง</button>
+  </div>
+</section>
+
+<section id="itemTools" style="display:none">
+  <div class="tools">
+    <label class="wide">หมวด Item
+      <select id="category">
+        <option value="all">ทุกหมวด</option>
+        <option value="objects">Objects</option>
+        <option value="weapons">Weapons</option>
+        <option value="tools">Tools</option>
+        <option value="bigcraftables">Big Craftables</option>
+        <option value="furniture">Furniture</option>
+        <option value="boots">Boots</option>
+        <option value="hats">Hats</option>
+        <option value="shirts">Shirts</option>
+        <option value="pants">Pants</option>
+        <option value="trinkets">Trinkets</option>
+        <option value="mannequins">Mannequins</option>
+        <option value="flooring">Flooring</option>
+        <option value="wallpaper">Wallpaper</option>
+      </select>
+    </label>
+    <label>จำนวน<input id="qty" type="number" min="1" max="999" value="1" inputmode="numeric"></label>
+    <label>Quality
+      <select id="quality">
+        <option value="0">ปกติ 0</option>
+        <option value="1">Silver 1</option>
+        <option value="2">Gold 2</option>
+        <option value="4">Iridium 4</option>
+      </select>
+    </label>
+  </div>
+  <button id="browseBtn" class="browse" type="button">ดูรายการ Item ในหมวดนี้</button>
+</section>
+
+<div class="info">
+  <span id="status">พร้อมใช้งาน • Quick Pad + Debug Catalog 349 คำสั่ง + Stardew IDs</span>
+  <button id="clearBtn" class="linkBtn" type="button">ล้าง</button>
 </div>
-</section>
 
-<section class="pad">
-<div class="padTitle">⚡ Command Pad</div>
-<div class="hint">แตะปุ่ม = Copy คำสั่งทันที</div>
-<div id="tabs" class="tabs"></div>
-<div id="grid" class="grid"></div>
-</section>
+<main id="results" class="results">
+  <div class="empty">แตะ Command Pad ด้านบน หรือพิมพ์ <b>พืชโต</b>, <b>Iridium Bar 50</b></div>
+</main>
 
-<section>
-<div class="tools">
-<label class="wide">หมวด Item<select id="cat"><option value="all">ทุกหมวด</option><option value="objects">Objects</option><option value="weapons">Weapons</option><option value="tools">Tools</option><option value="bigcraftables">Big Craftables</option><option value="furniture">Furniture</option><option value="boots">Boots</option><option value="hats">Hats</option><option value="shirts">Shirts</option><option value="pants">Pants</option><option value="trinkets">Trinkets</option><option value="mannequins">Mannequins</option><option value="flooring">Flooring</option><option value="wallpaper">Wallpaper</option></select></label>
-<label>จำนวน<input id="qty" type="number" min="1" max="999" value="1"></label>
-<label>Quality<select id="quality"><option value="0">ปกติ</option><option value="1">Silver</option><option value="2">Gold</option><option value="4">Iridium</option></select></label>
+<div class="install">
+  <b>iPhone:</b> Safari → Share → <b>Add to Home Screen</b> เพื่อเปิดเหมือนแอป
 </div>
-<button id="browse" class="browse" type="button">ดู Item ในหมวด</button>
-</section>
-
-<div class="info"><span id="status">พร้อมใช้งาน</span><button id="clear" class="link" type="button">ล้าง</button></div>
-<main id="results" class="results"><div class="empty">แตะ Command Pad หรือพิมพ์สิ่งที่ต้องการด้านบน</div></main>
-<div class="install"><b>iPhone:</b> เปิดเว็บด้วย Safari → Share → <b>Add to Home Screen</b></div>
-<div class="source">Item IDs: Stardew IDs by Mateus Aquino</div>
+<div class="source">Item IDs: Stardew IDs by Mateus Aquino • Debug Catalog: Stardew Valley Wiki (349 debug commands)</div>
 </div>
 
 <script>
-var $=function(s){return document.querySelector(s)}, results=$("#results"), statusEl=$("#status"), cache=new Map(), group="farm";
-function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]})}
-function norm(s){return String(s||"").trim().toLowerCase().replace(/\s+/g," ")}
-function status(s){statusEl.textContent=s}
-function copyText(t,b){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){flash(b)}).catch(function(){fallback(t,b)})}else fallback(t,b)}
-function fallback(t,b){var x=document.createElement("textarea");x.value=t;x.style.position="fixed";x.style.opacity="0";document.body.appendChild(x);x.select();try{document.execCommand("copy")}catch(e){}x.remove();flash(b)}
-function flash(b){if(!b)return;var old=b.textContent;b.textContent="✓ Copied";setTimeout(function(){b.textContent=old},900)}
-function card(title,desc,cmd,opt){opt=opt||{};return '<article class="card '+(opt.warn?"warn":"")+'"><div class="head"><div class="title">'+esc(title)+'</div><span class="badge">'+esc(opt.badge||"Command")+'</span></div><div class="desc">'+esc(desc||"")+'</div><div class="cmdrow"><div class="cmd">'+esc(cmd)+'</div><button class="copy" type="button" data-copy="'+encodeURIComponent(cmd)+'">Copy</button></div>'+(opt.note?'<div class="note">'+esc(opt.note)+'</div>':'')+'</article>'}
+const DEBUG_COMMANDS=[["action <TriggerAction>","รัน Trigger Action ของเกม","","เครื่องมือ"],["gamequery <Query>","ตรวจ Game State Query ว่าเป็นจริงหรือไม่","gq","เครื่องมือ"],["itemquery <Query>","เปิดร้านรวมไอเทมที่ตรง Query ทั้งหมด โดยไอเทมฟรี","iq","เครื่องมือ"],["search [คำค้น]","ค้นหา Debug command","","เครื่องมือ"],["tokens <ข้อความแบบ token>","แปลง Tokenized String แล้วแสดงผล","","เครื่องมือ"],["runmacro <filename.txt>","รันชุด Debug commands จากไฟล์ Macro","","เครื่องมือ"],["createDebris <ItemID>","สร้างไอเทมตกอยู่ที่เท้าของผู้เล่น","","ไอเทม"],["doesItemExist <ItemID|ชื่อ>","ตรวจว่าไอเทมมีอยู่ที่ใดสักแห่งในโลกหรือไม่","","ไอเทม"],["furniture [FurnitureID]","เพิ่มเฟอร์นิเจอร์เข้ากระเป๋า; ไม่ใส่ ID = สุ่ม","ff","ไอเทม"],["fuzzyItemNamed <คำค้น> [จำนวน] [คุณภาพ]","เสกไอเทมด้วยชื่อบางส่วน (fuzzy); เอารายการแรกที่ตรง","fin, f","ไอเทม"],["getIndex <คำค้น>","ค้นชื่อไอเทมและแสดง Qualified Item ID","","ไอเทม"],["holdItem","เล่นท่าชูไอเทมที่ถืออยู่เหนือหัว","","ไอเทม"],["item <ItemID> [จำนวน] [คุณภาพ]","เพิ่มไอเทมตาม ID เข้ากระเป๋า","i","ไอเทม"],["itemNamed \"<ชื่อภายใน>\" [จำนวน] [คุณภาพ]","เพิ่ม Object ที่ชื่อภายในตรงกันแบบ exact","in","ไอเทม"],["lookup <คำค้น>","ค้น Object ID จากชื่อภายใน","lu","ไอเทม"],["qualifiedId","แสดงชื่อและ Qualified ID ของไอเทมที่ถืออยู่","","ไอเทม"],["tv","เพิ่ม Budget TV หรือ Plasma TV แบบสุ่ม","","ไอเทม"],["wallpaper [ID]","เพิ่ม Wallpaper/Flooring เข้ากระเป๋า; ไม่ใส่ ID = สุ่ม","wp","ไอเทม"],["whereIsItem <ItemID|ชื่อ>","ค้นไอเทมทั่วโลกและแสดงตำแหน่งทั้งหมด","whereItem","ไอเทม"],["backpack <จำนวน>","เพิ่มช่องกระเป๋า สูงสุด 36 ช่อง","","กระเป๋า"],["clear","ล้างไอเทมทั้งหมดในกระเป๋า","ci","กระเป๋า"],["fillbackpack","เติมช่องว่างในกระเป๋าด้วย Object แบบสุ่ม","fillbp, fill, fbp","กระเป๋า"],["shiftToolbarLeft","เลื่อนแถว Toolbar ไปทางซ้าย/วนแถว","sl","กระเป๋า"],["shiftToolbarRight","เลื่อนแถว Toolbar ไปทางขวา/วนแถว","sr","กระเป๋า"],["dye <shirt|pants> <สี> <0-1>","ย้อมเสื้อหรือกางเกงด้วยสีและความเข้ม","","เสื้อผ้า"],["dyeAll","พยายามเปิดเมนูย้อมทั้งชุด แต่ Wiki ระบุว่าอาจไม่ทำงาน","","เสื้อผ้า"],["dyemenu","เปิดเมนู Dye Pots","","เสื้อผ้า"],["dyepants","เปิดตัวปรับสี HSV สำหรับกางเกง","","เสื้อผ้า"],["dyeshirt","เปิดตัวปรับสี HSV สำหรับเสื้อ","","เสื้อผ้า"],["hat <HatID>","ให้และสวมหมวก ID ที่ระบุ; หมวกเดิมจะถูกแทนที่","","เสื้อผ้า"],["shirt <ShirtID>","ให้และสวมเสื้อ ID ที่ระบุ; เสื้อเดิมจะถูกแทนที่","","เสื้อผ้า"],["tailor","เปิดเมนูจักรเย็บผ้า","","เสื้อผ้า"],["tailorrecipelisttool","เปิดรายการวัตถุดิบย้อม/ตัดเย็บและกดรับเสื้อผ้าได้","trlt","เสื้อผ้า"],["bobber <ID>","เปลี่ยนสไตล์ Bobber ของเบ็ด","","เครื่องมือ/อาวุธ"],["fish <FishID|ชื่อ>","เริ่มมินิเกมตกปลาด้วยปลาที่ระบุ","","เครื่องมือ/อาวุธ"],["forge","เปิดเมนู Forge","","เครื่องมือ/อาวุธ"],["pole [0-3]","เพิ่มเบ็ด: 0 Bamboo, 1 Training, 2 Fiberglass, 3 Iridium","","เครื่องมือ/อาวุธ"],["trashcan <0-4>","ตั้งระดับถังขยะ: 0 ปกติ → 4 Iridium","","เครื่องมือ/อาวุธ"],["clearspecials","ลบ Special Wallet items ส่วนใหญ่","","Wallet"],["darktalisman","เพิ่ม Dark Talisman/เปิดทาง Witch's Swamp; มีผลกับ Mail flags","","Wallet"],["skullkey","เพิ่ม Skull Key","","Wallet"],["specialitem <ID>","เพิ่ม Special Item ตาม ID","","Wallet"],["specials","เพิ่ม Special Wallet items ทั้งหมด","","Wallet"],["townkey","เพิ่ม Key To The Town","","Wallet"],["fillbin","ใส่ชุดไอเทมทดสอบลง Shipping Bin","fb","ไอเทมอื่น"],["listtags","แสดง Context Tags ของไอเทมที่ถือ","","ไอเทมอื่น"],["makeinedible","ทำให้ไอเทมที่ถือกินไม่ได้","","ไอเทมอื่น"],["skullgear","เซ็ตชุด/อาวุธสำหรับ Skull Cavern และล้างของเดิมหลายอย่าง","","ไอเทมอื่น"],["copyoutfit","คัดลอกข้อมูลชุดของผู้เล่นเป็น XML","","ตัวละคร"],["customizemenu","เปิดเมนูสร้าง/ปรับตัวละครเต็มรูปแบบ","customize, cmenu","ตัวละคร"],["haircolor <R> <G> <B>","ตั้งสีผม RGB","","ตัวละคร"],["hairstyle <ID>","ตั้งทรงผมตาม ID","","ตัวละคร"],["pants <R> <G> <B>","ตั้งสี Pants แบบเก่า; ปัจจุบันแทบไม่มีผล","","ตัวละคร"],["shirtcolor <ID>","ตั้ง Shirt choice แบบเก่า; ปัจจุบันแทบไม่มีผล","","ตัวละคร"],["skincolor <ID>","ตั้งสีผิวตาม ID","","ตัวละคร"],["buff <BuffID>","เพิ่ม Buff ตาม ID","","HP/พลัง/เงิน"],["clearbuffs","ลบ Buff ทั้งบวกและลบทั้งหมด","","HP/พลัง/เงิน"],["die","ทำ HP เป็น 0 และสลบไป Clinic","","HP/พลัง/เงิน"],["energize [จำนวน]","เติม/ตั้งพลังงาน; ไม่ใส่จำนวน = เต็ม","","HP/พลัง/เงิน"],["exhaust","ทำพลังงาน -15 แล้วสลบจบวัน","","HP/พลัง/เงิน"],["gem <จำนวน>","เพิ่ม Qi Gems","","HP/พลัง/เงิน"],["gold","เพิ่มเงิน 1,000,000g","","HP/พลัง/เงิน"],["heal","เติม HP เต็ม","","HP/พลัง/เงิน"],["invincible","เปิด/ปิดอมตะ ไม่รับดาเมจ","inv, gm","HP/พลัง/เงิน"],["money <จำนวน>","ตั้งเงินเป็นจำนวนที่ระบุ","","HP/พลัง/เงิน"],["testnut","สร้าง Golden Walnut เพื่อทดสอบ","","HP/พลัง/เงิน"],["walnut <จำนวน>","เพิ่ม Golden Walnuts ให้ทีม","","HP/พลัง/เงิน"],["canmove","พยายามแก้อาการตัวละครติด/ขยับไม่ได้","cm, c","วาร์ป/เคลื่อนที่"],["farmerdayupdate [เวลา]","รัน DayUpdate ของผู้เล่นแบบนักพัฒนา","","วาร์ป/เคลื่อนที่"],["minelevel <ชั้น> [layout]","วาร์ปไปชั้นเหมืองพร้อมกำหนด Layout","","วาร์ป/เคลื่อนที่"],["printplayerpos","แสดงพิกัด Tile/Pixel ปัจจุบัน","ppp","วาร์ป/เคลื่อนที่"],["volcano <ชั้น>","วาร์ปไปชั้น Volcano Dungeon","","วาร์ป/เคลื่อนที่"],["warp <location> [X] [Y]","วาร์ปไปแผนที่/พิกัดที่ระบุ","","วาร์ป/เคลื่อนที่"],["warphome","วาร์ปไปที่เตียงในบ้านทันที","wh","วาร์ป/เคลื่อนที่"],["warpshop <NPC>","วาร์ปไปยังร้านของ NPC","ws","วาร์ป/เคลื่อนที่"],["warptocharacter <NPC>","วาร์ปไปหา NPC","wtc","วาร์ป/เคลื่อนที่"],["warptoplayer \"<ชื่อผู้เล่น>\"","วาร์ปไปหาผู้เล่นอื่น","wtp","วาร์ป/เคลื่อนที่"],["experience <SkillID> <XP>","เพิ่ม XP ให้สกิล: 0 Farming,1 Fishing,2 Foraging,3 Mining,4 Combat,5 Luck","","สกิล"],["fishing <Level>","ตั้ง Fishing Level โดยตรง แต่ไม่เพิ่ม XP/สูตร/Profession","","สกิล"],["levelup <SkillID> <Level>","เปิดหน้าต่าง Level Up เพื่อปลดสูตร/เลือก Profession แต่ไม่เปลี่ยน XP","","สกิล"],["profession <ProfessionID>","เพิ่ม Profession ID โดยตรง; ไม่ใช่การสลับสาย","","สกิล"],["showexperience <SkillID>","แสดง XP รวมของสกิล","","สกิล"],["achieve <SteamAchievementID>","ปลด Steam Achievement","","สถิติ/Achievement"],["achievement <ID>","ปลด Achievement ในเกมและ Steam ที่เกี่ยวข้อง","","สถิติ/Achievement"],["catchallfish","ทำเครื่องหมายว่าจับปลาทุกชนิดแล้ว","","สถิติ/Achievement"],["caughtfish <จำนวน>","ตั้งสถิติ FishCaught","fishcaught","สถิติ/Achievement"],["daysplayed","แสดงค่า daysPlayed","dap","สถิติ/Achievement"],["dp <จำนวน>","ตั้งค่า daysPlayed","","สถิติ/Achievement"],["getStat <StatKey>","แสดงค่าสถิติที่ระบุ","","สถิติ/Achievement"],["killmonsterstat \"<MonsterName>\" <จำนวน>","ตั้งสถิติจำนวนฆ่ามอนสเตอร์","kms","สถิติ/Achievement"],["mineinfo","แสดงสถิติเหมืองหลัก 2 ค่า","","สถิติ/Achievement"],["perfection","แก้หลายระบบเพื่อให้เข้าเงื่อนไข Perfection; Wiki ระบุว่าอาจเสีย/พัง","","สถิติ/Achievement"],["resetachievements","รีเซ็ต Steam achievements","","สถิติ/Achievement"],["setStat <StatKey> <จำนวน>","ตั้งค่าสถิติเป็นจำนวนที่ระบุ","","สถิติ/Achievement"],["addallcrafting","เรียนรู้สูตร Crafting ทั้งหมด","","สูตร/Collection"],["cooking","เรียนรู้สูตรทำอาหารทั้งหมด","","สูตร/Collection"],["cookingrecipe <ชื่อสูตร>","เรียนรู้สูตรอาหารที่ระบุ","","สูตร/Collection"],["crafting","เรียนรู้สูตร Crafting ทั้งหมด","","สูตร/Collection"],["craftingrecipe <ชื่อสูตร>","เรียนรู้สูตร Crafting ที่ระบุ","addCraftingRecipe","สูตร/Collection"],["slimecraft","เรียนสูตร Slime Incubator และ Slime Egg-Press","","สูตร/Collection"],["clearfishcaught","ล้างประวัติปลาที่เคยจับ","","สูตร/Collection"],["clearmuseum","ล้างของบริจาคใน Museum","","สูตร/Collection"],["deletearch","ล้างประวัติ Artifact/Mineral และอาจกระทบปลา/Mail","","สูตร/Collection"],["museumloot","เติม Artifact/Mineral ที่ยังไม่พบจนกระเป๋าเต็ม","","สูตร/Collection"],["newmuseumloot","เติม Artifact/Mineral ที่ยังไม่บริจาคจนกระเป๋าเต็ม","","สูตร/Collection"],["note <BookID>","ตั้งจำนวน Lost Books เป็น 18 และเปิดหนังสือตาม ID","","สูตร/Collection"],["secretNote [NoteID]","เพิ่ม Secret Note ตาม ID; ไม่ใส่ = สุ่มโน้ตที่ยังไม่เห็น","sn","สูตร/Collection"],["allmail","คิวจดหมายทั้งหมดให้มาส่งพรุ่งนี้","","Mail"],["allmailread","ทำเครื่องหมายจดหมายทั้งหมดว่าอ่านแล้ว","","Mail"],["broadcastmail <MailID>","คิวจดหมายที่ระบุให้ผู้เล่นทุกคน","","Mail"],["broadcastmailbox <MailID>","ใส่จดหมายที่ระบุลง Mailbox ผู้เล่นทุกคนทันที","","Mail"],["clearmail","ล้างประวัติ Mail ทั้งหมดรวม Progress flags","","Mail"],["mailfortomorrow <MailID> [noletter]","คิว Mail ที่ระบุให้มาพรุ่งนี้","mft","Mail"],["seenmail <MailID> [true|false]","ทำเครื่องหมาย Mail ว่าเคยได้รับ/ยกเลิกสถานะ","","Mail"],["showmail <MailID>","เปิดหน้าต่างอ่านข้อความ Mail ที่ระบุโดยไม่เปลี่ยนสถานะ","","Mail"],["clearquests","ลบ Quest ทั้งหมดจาก Journal","","Quest"],["collectquest","เริ่ม Gathering Quest แบบสุ่ม","","Quest"],["completespecialorders","ทำ Objective ของ Special Orders/Qi Challenges ที่ Active ให้ครบ","cso","Quest"],["completequest <QuestID>","ทำ Quest ID ที่ระบุให้เสร็จและลบจาก Journal","","Quest"],["deliveryquest","เริ่ม Item Delivery Quest แบบสุ่ม","","Quest"],["getallquests","เริ่ม Quest ทุกอันที่ยังไม่มี","","Quest"],["ordersboard","เปิดบอร์ด Special Orders","","Quest"],["qiboard","เปิดบอร์ด Qi Challenges","","Quest"],["quest <QuestID>","เริ่ม Quest ตาม ID","","Quest"],["quests","เริ่ม Quest ปกติทั้งหมด + Delivery + Slay Quest แบบสุ่ม","","Quest"],["removequest <QuestID>","ลบ Quest ID ที่ระบุออกจาก Journal แบบเงียบ","","Quest"],["slayquest","เริ่ม Slay Monster Quest แบบสุ่ม","","Quest"],["specialorder <SpecialOrderID>","เริ่ม Special Order/Qi Challenge ตาม ID","","Quest"],["child","เพิ่มอายุลูกคนแรก 1 ขั้น; ถ้าไม่มีลูกจะสร้าง Baby","","ลูก"],["child2","เพิ่มอายุลูกคนที่สอง 1 ขั้น; ถ้าไม่มีจะสร้าง Baby2","","ลูก"],["clearchildren","ลบลูกทั้งหมด","","ลูก"],["pregnant","ตั้งให้มีลูก/รับเลี้ยงในวันถัดไป","","ลูก"],["addkent","สร้าง Kent หากพ้นปี 1","","NPC"],["characterinfo","แสดงจำนวน NPC ในพื้นที่ปัจจุบัน","","NPC"],["clearcharacters","ลบ NPC ทั้งหมดในพื้นที่ปัจจุบัน","","NPC"],["clone <NPC>","โคลน NPC มาในพื้นที่ปัจจุบัน; ห้าม clone farmer","","NPC"],["killall <NPCที่เว้นไว้>","ลบ NPC ทั้งหมด ยกเว้นชื่อที่ระบุ","","NPC"],["killnpc <NPC>","ลบ NPC ที่ระบุออกจากเกม","removenpc","NPC"],["dating <NPC>","ตั้งสถานะ Dating (เหมือนได้ Bouquet)","","ความสัมพันธ์"],["divorce","คิวหย่าคู่สมรสข้ามคืน","","ความสัมพันธ์"],["engaged <NPC>","เพิ่ม 2500 แต้มและตั้ง Engaged; แต่งวันถัดไป","","ความสัมพันธ์"],["friendall [จำนวน]","เพิ่ม Friendship ให้ NPC ทุกคน; ค่าเริ่มต้น 2500 และยังติด Heart cap","","ความสัมพันธ์"],["friendship <NPC> <แต้ม>","ตั้ง Friendship ของ NPC เป็นค่าที่ระบุ","","ความสัมพันธ์"],["invitemovie <NPC>","ชวน NPC ไปดูหนังวันนี้","","ความสัมพันธ์"],["makeex <NPC>","ตั้ง NPC เป็นสถานะ Divorced/แฟนเก่า","","ความสัมพันธ์"],["marry <NPC>","เพิ่ม 2500 แต้มและตั้ง Married ทันที","","ความสัมพันธ์"],["wedding <NPC>","ตั้ง NPC เป็นคู่สมรสและคิวพิธีแต่งงานวันนี้","","ความสัมพันธ์"],["clearactivedialogueevents","ล้าง Conversation Topics ที่กำลัง Active","","Dialogue"],["db [NPC]","เปิดบทสนทนาปัจจุบันของ NPC","speakto","Dialogue"],["dialogue <NPC> <ข้อความ>","ตั้งบทสนทนาถัดไปของ NPC","adddialogue","Dialogue"],["loaddialogue <NPC> <DialogueKey>","โหลดบทสนทนาจาก Asset Key","","Dialogue"],["phone","เปิดเมนูโทรศัพท์","","Dialogue"],["question <QuestionID> [true|false]","ทำเครื่องหมายคำถาม Dialogue ว่าตอบแล้ว/ลืมคำตอบ","","Dialogue"],["showtextabovehead <NPC>","แสดง Bubble ข้อความทดสอบเหนือหัว NPC","sb","Dialogue"],["speech <NPC> <ข้อความ>","เปิด Dialogue Box ให้ NPC พูดข้อความที่กำหนด","","Dialogue"],["facedirection <NPC|farmer> <Direction>","ให้ตัวละครหันตามทิศที่ระบุ","face, fd","NPC เคลื่อนที่"],["faceplayer <NPC>","ให้ NPC หันมาหาผู้เล่น","","NPC เคลื่อนที่"],["hurry <NPC>","วาร์ป NPC ไปจุดปลายของ Schedule ปัจจุบัน","","NPC เคลื่อนที่"],["jump <NPC|farmer> [Velocity]","ให้ตัวละครกระโดด","","NPC เคลื่อนที่"],["warpcharacter <NPC> <X> <Y> [Direction]","ย้าย NPC ไปพิกัดบนแผนที่ปัจจุบัน","wc","NPC เคลื่อนที่"],["warpcharacterto <NPC> <Location> <X> <Y> [Direction]","ย้าย NPC ไปแผนที่และพิกัดที่ระบุ","wct","NPC เคลื่อนที่"],["warpcharactertome <NPC>","วาร์ป NPC มาหาผู้เล่น","wctm","NPC เคลื่อนที่"],["whereis <NPC>","แสดงตำแหน่ง/พิกัด NPC","where","NPC เคลื่อนที่"],["animal \"<ชนิดสัตว์>\"","เพิ่มลูกสัตว์ชนิดที่ระบุลงฟาร์ม หากมีอาคารว่าง","","สัตว์ฟาร์ม"],["animalinfo","แสดงจำนวนสัตว์ฟาร์มทั้งหมด","","สัตว์ฟาร์ม"],["befriendanimals [แต้ม]","ตั้ง Friendship ของสัตว์ทั้งหมดในพื้นที่; ค่าเริ่มต้น 1000","","สัตว์ฟาร์ม"],["displaceanimals","พยายามย้ายสัตว์ออกจากอาคารแล้วเคลียร์รายการภายใน","","สัตว์ฟาร์ม"],["fixanimals","ลบรายการสัตว์ที่ไม่ควรอยู่ในอาคารนั้น","","สัตว์ฟาร์ม"],["growanimals","ทำสัตว์ในพื้นที่โตเป็นวัยผู้ใหญ่","","สัตว์ฟาร์ม"],["pauseanimals","หยุดการเคลื่อนที่ของสัตว์ในพื้นที่","","สัตว์ฟาร์ม"],["unpauseanimals","ยกเลิกการหยุดสัตว์","","สัตว์ฟาร์ม"],["warpanimaltome <ชื่อสัตว์>","วาร์ปสัตว์ฟาร์มมาหาผู้เล่น","watm","สัตว์ฟาร์ม"],["befriendpets","ให้ Friendship สัตว์เลี้ยงทั้งหมด 1000","","สัตว์เลี้ยง/มอน"],["cat <X> <Y> [Breed]","สร้างแมวเพิ่มที่พิกัด","","สัตว์เลี้ยง/มอน"],["changepet <ชื่อสัตว์> <Type> [BreedID]","เปลี่ยนชนิด/สายพันธุ์สัตว์เลี้ยง","","สัตว์เลี้ยง/มอน"],["createdino","สร้าง Pepper Rex ใกล้ผู้เล่น","","สัตว์เลี้ยง/มอน"],["dog <X> <Y> [Breed]","สร้างสุนัขเพิ่มที่พิกัด","","สัตว์เลี้ยง/มอน"],["horse <X> <Y>","สร้างม้าเพิ่มที่พิกัด","","สัตว์เลี้ยง/มอน"],["killallhorses","ลบม้าทั้งหมดจากทุกพื้นที่","","สัตว์เลี้ยง/มอน"],["monster <Type> <X> <Y> [Direction]","สร้างมอนสเตอร์ชนิดที่รองรับ","","สัตว์เลี้ยง/มอน"],["owl","สร้าง Owl ในพื้นที่ปัจจุบัน","","สัตว์เลี้ยง/มอน"],["pettofarm","วาร์ปสัตว์เลี้ยงไปจุดชามอาหาร/บ้านตามอากาศ","","สัตว์เลี้ยง/มอน"],["setpreferredpet <Type> [BreedID]","ตั้งชนิด/สายพันธุ์สัตว์เลี้ยงที่ชอบ","","สัตว์เลี้ยง/มอน"],["togglecatperson","สลับความชอบ Cat/Dog ของตัวละคร","","สัตว์เลี้ยง/มอน"],["endevent","จบ Event/Festival ปัจจุบันทันที","","Event/Festival"],["event <Location> <Index> [clearEventsSeen]","เริ่ม Event ตามตำแหน่ง+Index; อาจล้าง eventsSeen ถ้าใช้ไม่ถูก","","Event/Festival"],["eventbyid <EventID>","เริ่ม Event ตาม ID","ebi","Event/Festival"],["eventover","จบ/รีสตาร์ต Event ปัจจุบัน","","Event/Festival"],["eventseen <EventID> [true|false]","ทำเครื่องหมาย Event ว่าเคยดู/ยกเลิก","seenevent","Event/Festival"],["festival <FestivalID>","เริ่มเทศกาลและตั้งวัน/เวลา/สถานที่ให้ตรง","","Event/Festival"],["festivalscore <จำนวน>","เพิ่มคะแนนของ Festival ปัจจุบัน","","Event/Festival"],["runtestevent","รัน Event จากไฟล์ test_event.txt","rte","Event/Festival"],["setFarmEvent <EventID>","คิว Overnight Farm Event เช่น fairy/meteorite/witch","sfe","Event/Festival"],["boatjourney","เล่น Cutscene ล่องเรือไป Ginger Island","","Minigame"],["crane","เปิด Crane Game","","Minigame"],["darts","เปิด Darts ที่ Pirate Cove","","Minigame"],["fish <FishID>","เริ่มมินิเกมตกปลาด้วยปลา ID ที่ระบุ","","Minigame"],["minegame [infinite]","เปิด Junimo Kart; ใส่ infinite = Endless","","Minigame"],["minigame <blastoff|cowboy|fishing|grandpa|haleyCows|marucomet|minecart|plane|slots|target>","เปิดมินิเกม/Cutscene ตามชื่อ","","Minigame"],["movieSchedule [Year]","แสดงตารางหนังของปี","","Minigame"],["test","เปิด Test minigame/หน้าทดสอบพื้น","","Minigame"],["exportShops","ส่งออกรายการสินค้าของร้านทั้งหมดเป็นไฟล์","","ร้านค้า"],["shop <ShopID> [OwnerName]","เปิดร้านตาม Data/Shops โดยไม่ต้องมีเจ้าของอยู่ใกล้","","ร้านค้า"],["artifactSpots","สร้าง Artifact Spot ใน Tile ว่างรอบผู้เล่น","","ฟาร์ม/พืช"],["clearfarm","ล้างเกือบทุกอย่างบน Farm รวมเครื่อง/Chest ที่วาง","","ฟาร์ม/พืช"],["dayupdate [จำนวน]","รัน DayUpdate ของพื้นที่ซ้ำตามจำนวนครั้ง","","ฟาร์ม/พืช"],["fruittrees","เพิ่มอายุ Fruit Tree 1 เดือนให้ทุกต้น","","ฟาร์ม/พืช"],["grass","สร้างหญ้ายาวบน Tile ที่ว่าง","","ฟาร์ม/พืช"],["growcrops <วัน>","เร่งพืชทั้งหมดในพื้นที่ให้โตตามจำนวนวัน","","ฟาร์ม/พืช"],["growgrass <จำนวน>","สั่งหญ้ายาวเติบโต/แพร่ตามจำนวนครั้ง","","ฟาร์ม/พืช"],["growwildtrees","ทำ Wild Tree โตเต็มวัย; Wiki เตือนว่าอาจทำต้นแก่ถอยหลัง","","ฟาร์ม/พืช"],["localinfo","แสดงจำนวน Grass/Trees/Terrain/Object ในพื้นที่","","ฟาร์ม/พืช"],["mushroomtrees","เปลี่ยน Wild Trees ในพื้นที่เป็น Mushroom Trees","","ฟาร์ม/พืช"],["resetForPlayerEntry","รีเซ็ตพื้นที่เสมือนออกแล้วเข้าใหม่","r","ฟาร์ม/พืช"],["removedebris","ลบไอเทมที่ตกอยู่บนพื้นในพื้นที่","","ฟาร์ม/พืช"],["removedirt","ลบพื้นพรวนทั้งหมดและพืชที่ปลูก","","ฟาร์ม/พืช"],["removeLargeTerrainFeature","ลบ Large Terrain Features เช่นพุ่มไม้","removelargetf","ฟาร์ม/พืช"],["removeterrainfeatures","ลบ Grass/พื้นพรวนและพืช","removetf","ฟาร์ม/พืช"],["spawnweeds <จำนวน>","ทำให้ Weed แพร่ตามจำนวนครั้ง","","ฟาร์ม/พืช"],["spreaddirt","พรวน Tile ที่ขุดได้และว่างทั้งหมด","","ฟาร์ม/พืช"],["spreadseeds <SeedID>","ปลูกเมล็ดที่ระบุลงพื้นพรวนทั้งหมด และแทนพืชเดิม","","ฟาร์ม/พืช"],["water","รดน้ำพื้นพรวนทั้งหมดในพื้นที่","","ฟาร์ม/พืช"],["watercolor <R> <G> <B>","เปลี่ยนสีของน้ำในพื้นที่ชั่วคราว","","ฟาร์ม/พืช"],["whereore","แสดงพิกัดจุด Panning ที่กำลัง Active","","ฟาร์ม/พืช"],["clearfurniture","ลบเฟอร์นิเจอร์ทั้งหมดในพื้นที่","","วัตถุ/แสง"],["clearlightglows","ลบ Light Glow ทั้งหมดในพื้นที่","","วัตถุ/แสง"],["fencedecay <วัน>","เพิ่มอายุรั้วตามจำนวนวัน","","วัตถุ/แสง"],["fillwithobject <ItemID> [true]","เติม Object/BigCraftable ลง Tile ว่างทั้งหมด","","วัตถุ/แสง"],["readyforharvest <X> <Y>","ทำเครื่องที่พิกัดเสร็จใน Clock tick ถัดไป","rfh","วัตถุ/แสง"],["listLights","แสดงข้อมูล Light Sources ทั้งหมด","","วัตถุ/แสง"],["removefurniture","ลบเฟอร์นิเจอร์ทั้งหมด รวมพื้นที่ตกแต่งอย่าง Shed","","วัตถุ/แสง"],["removelights","ลบ Light Sources ชั่วคราว","","วัตถุ/แสง"],["removeobjects","ลบ Object ที่วาง เช่น Fence/Machine/Chest","","วัตถุ/แสง"],["build \"<ชื่ออาคาร>\" [X] [Y]","สร้างอาคารทันทีที่พิกัดหรือข้างผู้เล่น","","อาคาร"],["buildcoop <X> <Y>","สร้าง Coop ทันที","bc","อาคาร"],["finishallbuilds","สร้างอาคารที่กำลังก่อสร้างให้เสร็จทั้งหมด","fab","อาคาร"],["forcebuild \"<ชื่ออาคาร>\" [X] [Y]","สร้างอาคารโดยข้าม Safety checks","","อาคาร"],["movebuilding <srcX> <srcY> <destX> <destY>","ย้ายอาคารจากพิกัดหนึ่งไปอีกพิกัด","","อาคาร"],["paintBuilding","เปิดเมนูทาสีอาคารด้านหน้า/บ้านหลัก","bpm","อาคาร"],["removebuildings","ทำลายอาคารฟาร์มทั้งหมดและสัตว์ที่อยู่ข้างใน","","อาคาร"],["skinbuilding","เปิดเมนูเปลี่ยนรูปลักษณ์อาคารที่อยู่ด้านหน้า","bsm","อาคาร"],["spawncoopsandbarns <จำนวน>","สุ่มสร้าง Deluxe Barn/Coop พร้อมสัตว์","","อาคาร"],["crib <0|1>","ตั้งรูปแบบ Crib; 0 ไม่มี, 1 แบบปกติ","","บ้าน"],["floor [0-55]","เปลี่ยนพื้นทั้งหมดใน Farmhouse","","บ้าน"],["houseupgrade <0-3>","ตั้งระดับบ้านโดยตรง","house, hu","บ้าน"],["logWallAndFloorWarnings","เปิด Debug log สำหรับ Wallpaper/Flooring","","บ้าน"],["renovate","เปิดเมนู Farmhouse Renovation","","บ้าน"],["thishouseupgrade <0-3>","ตั้งระดับบ้านที่กำลังยืนอยู่/บ้านผู้เล่นอื่น","thishouse, thu","บ้าน"],["upgradehouse","เพิ่มระดับบ้านขึ้น 1 ขั้น สูงสุด 3","","บ้าน"],["wall [0-111]","เปลี่ยน Wallpaper ทั้ง Farmhouse","","บ้าน"],["farmmap [0-7]","เปลี่ยนแผนที่ฟาร์มและสร้าง Farmhouse ใหม่","","ฟาร์ม Setup"],["setupbigfarm","ล้างฟาร์มแล้วสร้างชุดทดสอบฟาร์มขนาดใหญ่","","ฟาร์ม Setup"],["setupfarm [clearMore]","ล้าง/เซ็ตฟาร์มทดสอบพร้อมอาคาร เงิน เครื่องมือและวัตถุดิบ","","ฟาร์ม Setup"],["setupfishpondfarm [Population]","ล้างฟาร์มแล้วสุ่มสร้าง Fish Ponds จำนวนมาก","","ฟาร์ม Setup"],["addjunimo <X> <Y> <Area>","สร้าง Junimo ที่พิกัดและพื้นที่ Community Center","aj, j","Community Center"],["allbundles","ทำ Bundle ทั้งหมดให้เสร็จ","","Community Center"],["bundle <BundleID>","ทำ Bundle ตาม ID ให้เสร็จ","","Community Center"],["ccload <Area>","คืนสภาพพื้นที่ Community Center ที่ระบุ","","Community Center"],["ccloadcutscene <Area>","เล่น Cutscene ฟื้นฟูพื้นที่ Community Center","","Community Center"],["completecc","ตั้งธง Completion และฟื้นฟู Community Center ทั้งหมด","","Community Center"],["completejoja","ตั้งธง Joja Membership/Development ให้ครบ","","Community Center"],["junimogoodbye","เล่น Animation Junimo กล่าวลา","","Community Center"],["junimonote <Area>","เพิ่ม Bundle Scroll ของพื้นที่","jn","Community Center"],["junimostar","ให้ Junimo นำดาวไปติด Plaque","","Community Center"],["plaque","เพิ่มดาวบน Plaque","","Community Center"],["resetjunimonotes","รีเซ็ต Bundle ทั้งหมด","","Community Center"],["shufflebundles","สุ่ม Bundle ใหม่ด้วย Remixed logic","","Community Center"],["activatecalicostatue","สร้างและเปิดใช้ Calico Statue บนชั้นเหมืองปัจจุบัน","","เหมือง/สถานที่"],["beachbridge","สลับสถานะสะพานชายหาด","","เหมือง/สถานที่"],["ladder [X] [Y]","สร้างบันได/หลุมในเหมือง","shaft","เหมือง/สถานที่"],["minedifficulty [Level]","ตั้ง/ดูความยากของ Mines","md","เหมือง/สถานที่"],["movie [MovieID] [NPC]","เริ่มดูหนังและเชิญ NPC ได้","","เหมือง/สถานที่"],["printGemBirds","แสดงคำตอบ Gem Bird Puzzle","pgb","เหมือง/สถานที่"],["resetmines","รีเซ็ตการเปลี่ยนแปลงถาวรบางอย่างในเหมือง","","เหมือง/สถานที่"],["returneddonations","เปิดเมนู Returned Donations","","เหมือง/สถานที่"],["skullcavedifficulty [Level]","ตั้ง/ดูความยาก Skull Cavern","scd","เหมือง/สถานที่"],["train","สร้าง Train ที่ Railroad","","เหมือง/สถานที่"],["addhour","เพิ่มเวลา 1 ชั่วโมง","","เวลา"],["addminute","เพิ่มเวลา 10 นาที","","เวลา"],["day <วัน>","ตั้งวันที่ในเดือนและปรับ daysPlayed","","เวลา"],["pausetime","หยุด/เดินเกมโดยยังขยับตัวละครได้","","เวลา"],["season <spring|summer|fall|winter>","ตั้งฤดู","","เวลา"],["sleep","บังคับจบวัน","newday, nd","เวลา"],["time <เวลา>","ตั้งเวลา เช่น 2040 = 20:40","","เวลา"],["year <ปี>","ตั้งปี","","เวลา"],["debrisweather","เปิด/ปิดอากาศลมพัดเศษใบไม้","","อากาศ/โลก"],["greenrain","เปิด/ปิด Green Rain","","อากาศ/โลก"],["morepollen <จำนวน>","เพิ่มจำนวนใบไม้/เกสรในอากาศลม","","อากาศ/โลก"],["rain","เปิด/ปิดฝน","","อากาศ/โลก"],["resetworldstate","ล้าง World State และข้อมูลสะสมหลายระบบ","","อากาศ/โลก"],["conventionmode","เปิด/ปิด Convention Mode","","ตั้งค่า/ระบบ"],["filterLoadMenu <คำค้น>","กรองรายการ Save ตามชื่อผู้เล่น/ฟาร์ม","","ตั้งค่า/ระบบ"],["gamemode <Mode>","ตั้ง Game Mode; รายละเอียดไม่ชัดเจน","","ตั้งค่า/ระบบ"],["gamepad","เปิด/ปิด Gamepad control options","","ตั้งค่า/ระบบ"],["inputsim <spamtool|spamlr>","ตั้ง Input Simulator","is","ตั้งค่า/ระบบ"],["language","เปิดเมนูเลือกภาษา","","ตั้งค่า/ระบบ"],["musicvolume <0-1>","ตั้งระดับเสียงเพลง","mv, m","ตั้งค่า/ระบบ"],["nosave","เปิด/ปิดการ Save ตอนจบวัน","ns","ตั้งค่า/ระบบ"],["performTitleAction <Button>","กระโดดไป Title submenu ตามปุ่มที่ระบุ","pta","ตั้งค่า/ระบบ"],["save","เปิด/ปิดการ Save ในวันใหม่","","ตั้งค่า/ระบบ"],["showplurals","พิมพ์รูปพหูพจน์ของไอเทมทั้งหมด","","ตั้งค่า/ระบบ"],["toggleCheats","เปิด/ปิดการใช้ Debug commands ผ่านช่องแชตด้วย /","","ตั้งค่า/ระบบ"],["toggleNetCompression","เปิด/ปิด Multiplayer compression","","ตั้งค่า/ระบบ"],["toggletimingoverlay","เปิด Timing Overlay สำหรับวัด Performance","tto","ตั้งค่า/ระบบ"],["steaminfo","แสดงข้อมูล Steam/SDK Login","sdkinfo","ตั้งค่า/ระบบ"],["version","แสดง Assembly Version","","ตั้งค่า/ระบบ"],["worldMapLines","เปิด/ปิด Debug view บน World Map","","ตั้งค่า/ระบบ"],["worldMapPosition [true]","แสดงข้อมูลตำแหน่ง World Map แบบละเอียด","","ตั้งค่า/ระบบ"],["addotherfarmer","สร้าง Farmer ผู้ชายสุ่มเพิ่มใกล้ตัวละคร","","Multiplayer"],["nethost","เริ่ม LAN Server","","Multiplayer"],["netjoin <IP>","เชื่อมต่อ Multiplayer ผ่าน IP","","Multiplayer"],["split [PlayerIndex]","เริ่ม/เพิ่ม Split-screen","","Multiplayer"],["validatenetfields","เปิด Net Field validation","","Multiplayer"],["logbandwidth","เปิด/ปิด Bandwidth logging","","Multiplayer"],["logFile","เริ่มเขียน Debug messages ลงไฟล์ Log","","Multiplayer"],["logSounds","Log เสียงทุกเอฟเฟกต์ไป Console","","Multiplayer"],["netclear","ล้าง Network message log","","Multiplayer"],["netdump","ส่งออก Network message log เป็นไฟล์","","Multiplayer"],["netlog","เปิด/ปิด Network message logging","","Multiplayer"],["dateplayer","ตั้ง Farmer ออนไลน์คนแรกเป็น Dating","","Multiplayer"],["engageplayer","ตั้ง Farmer ออนไลน์คนแรกเป็นคู่หมั้น แต่งวันถัดไป","","Multiplayer"],["testwedding","เล่น Wedding Event ทันที; ต้อง Married ก่อน","","Multiplayer"],["marryplayer","ตั้ง Farmer ออนไลน์คนแรกเป็นคู่สมรส","","Multiplayer"],["changewallet","สลับ Shared/Split money ในคืนถัดไป","","Multiplayer"],["mergewallets","รวมกระเป๋าเงินเป็น Shared ทันที (Host)","","Multiplayer"],["separatewallets","แยกกระเป๋าเงินเป็น Split ทันที (Host)","","Multiplayer"],["animationpreviewtool","เปิดเครื่องมือ Preview Animation ของ Farmer","apt","ภาพ/เสียง"],["busdriveback","เล่น Animation รถบัสกลับจากทะเลทราย","","ภาพ/เสียง"],["busdriveoff","เล่น Animation รถบัสออกและวาร์ปไป Desert","","ภาพ/เสียง"],["createsplash","สร้างจุดฟองปลาด้านหน้าผู้เล่น","","ภาพ/เสียง"],["framebyframe","เปิดโหมดทีละเฟรม; กด G เดินเฟรม, Esc ออก","fbf","ภาพ/เสียง"],["frameoffset <FrameID> <X> <Y> <ค่า>","ตั้ง Offset ของ Animation Frame; รายละเอียดไม่ชัด","fo","ภาพ/เสียง"],["setframe <FrameID>","ตั้ง Sprite frame ของ Farmer","sf","ภาพ/เสียง"],["sprinkle","เล่นเอฟเฟกต์ Sprinkle รอบ Farmer","","ภาพ/เสียง"],["toss","เล่น Animation ขวดหมุน","","ภาพ/เสียง"],["ambientlight <R> <G> <B>","ตั้งแสง Ambient ชั่วคราวแบบสีผกผัน","al","ภาพ/เสียง"],["panmode [options]","เปิด Pan Mode ให้เลื่อนกล้องอิสระ","pm","ภาพ/เสียง"],["toggleLightingScale","สลับ Lighting Scaling","tls","ภาพ/เสียง"],["viewport <X> <Y>","ตั้ง Viewport ตามพิกัด Tile","","ภาพ/เสียง"],["uiscale <เปอร์เซ็นต์>","ตั้ง UI Scale เกินช่วงปกติได้","us","ภาพ/เสียง"],["zoomlevel <เปอร์เซ็นต์>","ตั้ง Zoom Level เกินช่วงปกติได้","zl","ภาพ/เสียง"],["playmusic \"<CueID>\"","หยุดเพลงเดิมและเล่น Music Cue ที่ระบุ","","ภาพ/เสียง"],["playsound <CueID> [Pitch]","เล่น Sound Effect พร้อม Pitch","ps","ภาพ/เสียง"],["break","ไม่มีผลอะไร","","เก่า/ไม่สมบูรณ์"],["eventtest <Location> <Index>","ตั้งค่า Event Test ภายใน; ปัจจุบันแทบไม่ถูกใช้งาน","","เก่า/ไม่สมบูรณ์"],["eventtestspecific <Args...>","ตั้งค่า Event Test แบบระบุชุด Argument","","เก่า/ไม่สมบูรณ์"],["lantern","เพิ่ม Lantern ที่ไม่สมบูรณ์และอาจทำให้ตัวละคร Softlock","","เก่า/ไม่สมบูรณ์"],["refuel","เติมเชื้อเพลิง Lantern ที่ระบบไม่สมบูรณ์","","เก่า/ไม่สมบูรณ์"],["stoprafting","ปิด Flag rafting ภายในที่ระบบไม่สมบูรณ์","","เก่า/ไม่สมบูรณ์"]];
 
-var GROUPS=[
-{id:"farm",label:"🌱 ฟาร์ม",items:[
-["🌱","พืชโตทันที","/debug growcrops 999","เร่ง Crop ในพื้นที่ปัจจุบัน"],
-["🐄","สัตว์โต","/debug growanimals","ทำสัตว์ในพื้นที่เป็นวัยผู้ใหญ่"],
-["🍎","Fruit Tree โต","/debug fruittrees","เพิ่มอายุ Fruit Tree"],
-["🌳","Wild Tree โต","/debug growwildtrees","เร่ง Oak / Maple / Pine"]
-]},
-{id:"time",label:"⏱ เวลา/อากาศ",items:[
-["⏸️","หยุด / เดินเวลา","/debug pausetime","กดซ้ำเพื่อสลับ"],
-["🌙","ข้ามวัน","/debug sleep","จบวันปัจจุบัน"],
-["🌧️","ฝนตก","/debug rain","เรียกฝน"],
-["💚","Green Rain","/debug greenrain","เรียก Green Rain"]
-]},
-{id:"player",label:"🧑 ตัวละคร",items:[
-["❤️","HP เต็ม","/debug heal","ฟื้น Health"],
-["⚡","Energy เต็ม","/debug energize","ฟื้น Energy"],
-["🛡️","อมตะ","/debug invincible","สลับไม่รับดาเมจ"],
-["🏠","กลับบ้าน","/debug wh","วาร์ปกลับบ้าน"]
-]},
-{id:"build",label:"🏗 บ้าน/ก่อสร้าง",items:[
-["🏗️","สร้างอาคารเสร็จ","/debug fab","ทำอาคารที่กำลังก่อสร้างเสร็จทั้งหมด",true],
-["🛋️","Renovate บ้าน","/debug renovate","เปิดเมนูปรับปรุงบ้าน"],
-["🎒","กระเป๋า 36 ช่อง","/debug backpack 36","ตั้งช่องกระเป๋า"],
-["💰","เงิน 1,000,000","/debug money 1000000","ตั้งเงิน"]
-]},
-{id:"tools",label:"🧰 เครื่องมือ",items:[
-["📍","ดูพิกัด","/debug ppp","แสดง Tile ปัจจุบัน"],
-["🔄","รีโหลดพื้นที่","/debug r","รีโหลด Location"],
-["🔎","ค้น Debug","/debug search ","เติมคำค้นต่อท้าย"],
-["🍷","เครื่องผลิตเสร็จ","/debug rfh X Y","แทน X Y ด้วยพิกัดเครื่อง"]
-]}
-];
-
-function renderPad(){var tabs=$("#tabs"),grid=$("#grid");tabs.innerHTML=GROUPS.map(function(g){return '<button class="tab '+(g.id===group?"on":"")+'" type="button" data-group="'+g.id+'">'+g.label+'</button>'}).join("");var g=GROUPS.find(function(x){return x.id===group})||GROUPS[0];grid.innerHTML=g.items.map(function(x){return '<button class="qbtn '+(x[4]?"warn":"")+'" type="button" data-cmd="'+encodeURIComponent(x[2])+'" data-name="'+encodeURIComponent(x[1])+'" data-desc="'+encodeURIComponent(x[3])+'"><div class="qtop"><span class="ico">'+x[0]+'</span><span class="qname">'+x[1]+'</span></div><div class="qcmd">'+esc(x[2])+'</div></button>'}).join("")}
-
-function natural(s){var l=norm(s),m;
-if(/พืช.*โต|โต.*พืช|grow\s*crops?/.test(l))return card("พืชโตทันที","เร่ง Crop ในพื้นที่ปัจจุบัน","/debug growcrops 999",{badge:"Farm"});
-if(/สัตว์.*โต|โต.*สัตว์|grow\s*animals?/.test(l))return card("สัตว์โต","ทำสัตว์ในพื้นที่เป็นวัยผู้ใหญ่","/debug growanimals",{badge:"Farm"});
-if(/fruit\s*tree|ต้นไม้ผลไม้|ต้นผลไม้/.test(l))return card("Fruit Tree โต","เพิ่มอายุ Fruit Tree","/debug fruittrees",{badge:"Farm"});
-if(/wild\s*tree|ต้นไม้ป่า/.test(l))return card("Wild Tree โต","เร่งต้นไม้ป่า","/debug growwildtrees",{badge:"Farm"});
-if(/หยุดเวลา|pausetime/.test(l))return card("หยุด / เดินเวลา","กดซ้ำเพื่อสลับ","/debug pausetime");
-if(/ข้ามวัน|sleep/.test(l))return card("ข้ามวัน","จบวันปัจจุบัน","/debug sleep");
-if(/ฝนเขียว|green\s*rain/.test(l))return card("Green Rain","เรียก Green Rain","/debug greenrain");
-if(/ฝนตก|^rain$/.test(l))return card("ฝนตก","เรียกฝน","/debug rain");
-if(/กลับบ้าน|warp home/.test(l))return card("กลับบ้าน","วาร์ปกลับบ้าน","/debug wh");
-if(/รักษา|ฮีล|heal/.test(l))return card("HP เต็ม","ฟื้น Health","/debug heal");
-if(/พลังงาน|energize/.test(l))return card("Energy เต็ม","ฟื้น Energy","/debug energize");
-if(/อมตะ|invincible/.test(l))return card("Invincible","สลับไม่รับดาเมจ","/debug invincible");
-if(/สร้าง.*บ่อปลา|บ่อปลา|fish\s*pond/.test(l))return card("Fish Pond","Stone 200 + Seaweed 5 + Green Algae 5 แล้วไป Robin วางบ่อ","/item 390 200 0",{badge:"Fish Pond",note:"ต่อด้วย /item 152 5 0 และ /item 153 5 0 แล้วใช้ /debug fab หลังวางอาคาร"});
-if(/tea\s*sapling|ต้นชา|ชา.*โต/.test(l))return card("Tea Sapling","ไม่มี Debug ตรงสำหรับเร่ง Tea Bush","/item 815 100 0",{badge:"Tea",warn:true,note:"คำสั่งนี้เสก Tea Leaves ×100"});
-if(/pineapple\s*wine|ไวน์สับปะรด/.test(l)){m=s.match(/(\d{1,3})\s*$/);return card("Pineapple Wine","Flavored Wine จาก Pineapple","/item (O)348/832 "+(m?m[1]:"1")+" 0",{badge:"Item"})}
-if((m=s.match(/(?:เงิน|money)\s*([0-9,]+)/i)))return card("ตั้งเงิน","ตั้งเงินเป็น "+m[1]+"g","/debug money "+m[1].replace(/,/g,""));
-if((m=s.match(/(?:หัวใจ|heart)\s+([A-Za-z]+)\s+(\d+)/i))){var p=Number(m[2])*250;return card("หัวใจ "+m[1]+" "+m[2],"Friendship "+p+" points","/debug friendship "+m[1]+" "+p,{badge:"Relationship"})}
-if((m=s.match(/(?:เครื่อง|keg|jar|cask).*?(?:เสร็จ|พร้อม).*?(\d+)\s+(\d+)/i)))return card("เครื่องผลิตเสร็จ","พิกัด "+m[1]+", "+m[2],"/debug rfh "+m[1]+" "+m[2],{badge:"Machine"});
-return ""}
-
-var CATS={
-objects:["objects.json",""],weapons:["weapons.json","(W)"],tools:["tools.json","(T)"],bigcraftables:["big-craftables.json","(BC)"],furniture:["furniture.json","(F)"],boots:["boots.json","(B)"],hats:["hats.json","(H)"],shirts:["shirts.json","(S)"],pants:["pants.json","(P)"],trinkets:["trinkets.json","(TR)"],mannequins:["mannequins.json","(M)"],flooring:["flooring.json","(FL)"],wallpaper:["wallpaper.json","(WP)"]
+const ITEM_CATEGORIES = {
+  objects:{file:'objects.json',prefix:'',label:'Objects'},
+  weapons:{file:'weapons.json',prefix:'(W)',label:'Weapons'},
+  tools:{file:'tools.json',prefix:'(T)',label:'Tools'},
+  bigcraftables:{file:'big-craftables.json',prefix:'(BC)',label:'Big Craftables'},
+  furniture:{file:'furniture.json',prefix:'(F)',label:'Furniture'},
+  boots:{file:'boots.json',prefix:'(B)',label:'Boots'},
+  hats:{file:'hats.json',prefix:'(H)',label:'Hats'},
+  shirts:{file:'shirts.json',prefix:'(S)',label:'Shirts'},
+  pants:{file:'pants.json',prefix:'(P)',label:'Pants'},
+  trinkets:{file:'trinkets.json',prefix:'(TR)',label:'Trinkets'},
+  mannequins:{file:'mannequins.json',prefix:'(M)',label:'Mannequins'},
+  flooring:{file:'flooring.json',prefix:'(FL)',label:'Flooring'},
+  wallpaper:{file:'wallpaper.json',prefix:'(WP)',label:'Wallpaper'}
 };
-var aliases={"สับปะรด":"Pineapple","เมล็ดสับปะรด":"Pineapple Seeds","แท่งอิริเดียม":"Iridium Bar","อิริเดียมบาร์":"Iridium Bar","ดาบกาแล็กซี":"Galaxy Sword","ไม้":"Wood","หิน":"Stone","ถ่านหิน":"Coal","ไม้เนื้อแข็ง":"Hardwood"};
-async function loadCat(k){if(cache.has(k))return cache.get(k);var m=CATS[k],urls=["https://mateusaquino.github.io/stardewids/dist/"+m[0],"https://raw.githubusercontent.com/MateusAquino/stardewids/main/dist/"+m[0]];for(var u of urls){try{var r=await fetch(u,{cache:"force-cache"});if(!r.ok)throw 0;var a=await r.json();var rows=a.map(function(x){var names=x.names||{},name=names["data-en-US"]||Object.values(names).find(Boolean)||String(x.id);return{name:name,id:String(x.id),qid:m[1]+String(x.id),cat:k}});cache.set(k,rows);return rows}catch(e){}}throw new Error("โหลด Item ID ไม่สำเร็จ")}
-function parse(text){var name=text.trim(),qty=Math.max(1,Math.min(999,Number($("#qty").value)||1)),m=name.match(/^(.*?)\s+(\d{1,4})$/);if(m&&m[1].trim()){name=m[1].trim();qty=Math.max(1,Math.min(999,Number(m[2])))}name=aliases[norm(name)]||name;return{name:name,qty:qty}}
-async function searchItems(text){var p=parse(text),q=norm(p.name),keys=$("#cat").value==="all"?Object.keys(CATS):[$("#cat").value];results.innerHTML='<div class="empty">กำลังค้น Item ID…</div>';status("กำลังค้น…");try{var exact=[],starts=[],partial=[];for(var k of keys){var rows=await loadCat(k);for(var x of rows){var n=norm(x.name);if(n===q||x.id===q||norm(x.qid)===q)exact.push(x);else if(n.startsWith(q))starts.push(x);else if(n.includes(q))partial.push(x)}if(exact.length)break}var arr=exact.concat(starts,partial).slice(0,60);if(!arr.length){results.innerHTML='<div class="empty">ไม่พบ Item ID</div>';status("ไม่พบ");return}var qual=Number($("#quality").value)||0;results.innerHTML=arr.map(function(x){return card(x.name,"Item "+x.id+" • "+x.cat,"/item "+x.qid+" "+p.qty+" "+qual,{badge:"Item ID"})}).join("");status("พบ "+arr.length+" รายการ")}catch(e){results.innerHTML='<div class="empty">โหลด Item ID ไม่สำเร็จ</div>';status("เกิดข้อผิดพลาด")}}
-async function browse(){var k=$("#cat").value==="all"?"objects":$("#cat").value;results.innerHTML='<div class="empty">กำลังโหลด…</div>';try{var rows=(await loadCat(k)).slice(0,80),qty=Math.max(1,Math.min(999,Number($("#qty").value)||1)),qual=Number($("#quality").value)||0;results.innerHTML=rows.map(function(x){return card(x.name,"Item "+x.id,"/item "+x.qid+" "+qty+" "+qual,{badge:"Item ID"})}).join("");status("แสดง "+rows.length+" รายการ")}catch(e){results.innerHTML='<div class="empty">โหลดไม่สำเร็จ</div>'}}
-function run(){var s=$("#q").value.trim();if(!s)return;var n=natural(s);if(n){results.innerHTML=n;status("พบคำสั่งพร้อมใช้");return}searchItems(s)}
+const itemCache=new Map();
 
-$("#tabs").onclick=function(e){var b=e.target.closest("[data-group]");if(!b)return;group=b.dataset.group;renderPad()};
-$("#grid").onclick=function(e){var b=e.target.closest("[data-cmd]");if(!b)return;var cmd=decodeURIComponent(b.dataset.cmd),name=decodeURIComponent(b.dataset.name),desc=decodeURIComponent(b.dataset.desc);results.innerHTML=card(name,desc,cmd,{badge:"Quick"});status("Copy แล้ว: "+name);copyText(cmd,b)};
-$("#form").onsubmit=function(e){e.preventDefault();run()};
-document.querySelectorAll("[data-fill]").forEach(function(b){b.onclick=function(){$("#q").value=b.dataset.fill;run()}});
-$("#browse").onclick=browse;
-$("#clear").onclick=function(){$("#q").value="";results.innerHTML='<div class="empty">แตะ Command Pad หรือพิมพ์สิ่งที่ต้องการด้านบน</div>';status("พร้อมใช้งาน")};
-results.onclick=function(e){var b=e.target.closest("[data-copy]");if(b)copyText(decodeURIComponent(b.dataset.copy),b)};
-renderPad();
-if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})});
+const $=s=>document.querySelector(s);
+const results=$('#results'), statusEl=$('#status');
+let mode='auto', browseOffset=0, browseRows=[];
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function norm(v){return String(v||'').toLowerCase().replace(/[“”"']/g,'').replace(/\s+/g,' ').trim()}
+function setStatus(t){statusEl.textContent=t}
+function loading(t){results.innerHTML='<div class="loading"><span class="spinner"></span>'+esc(t)+'</div>'}
+
+function card(title,description,command,opt={}){
+  return `<article class="card ${opt.warn?'warn':''}">
+    <div class="head"><div class="title">${opt.step?`<span class="step">${esc(opt.step)}</span>`:''}${esc(title)}</div>${opt.badge?`<span class="badge">${esc(opt.badge)}</span>`:''}</div>
+    ${description?`<div class="desc">${description}</div>`:''}
+    ${opt.ids?.length?`<div class="ids">${opt.ids.map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div>`:''}
+    ${command?`<div class="cmdrow"><div class="cmd">${esc(command)}</div><button class="copy" type="button" data-copy="${encodeURIComponent(command)}">Copy</button></div>`:''}
+    ${opt.note?`<div class="note">${opt.note}</div>`:''}
+  </article>`
+}
+
+async function copyText(text,btn){
+  let ok=false;
+  try{await navigator.clipboard.writeText(text);ok=true}catch(e){}
+  if(!ok){
+    const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,99999);
+    try{ok=document.execCommand('copy')}catch(e){}ta.remove()
+  }
+  if(ok){const old=btn.textContent;btn.textContent='คัดลอกแล้ว';setTimeout(()=>btn.textContent=old,900)}
+  else prompt('กดค้างแล้วเลือก Copy',text)
+}
+
+
+const QUICK_GROUPS=[
+  {id:'farm',label:'🌱 ฟาร์ม',items:[
+    ['🌱','พืชโตทันที','/debug growcrops 999','เร่ง Crop ในพื้นที่ปัจจุบัน'],
+    ['🐄','สัตว์โต','/debug growanimals','ทำสัตว์ในพื้นที่เป็นวัยผู้ใหญ่'],
+    ['🍎','Fruit Tree โต','/debug fruittrees','เพิ่มอายุ Fruit Tree 1 เดือน'],
+    ['🌳','Wild Tree โต','/debug growwildtrees','เร่ง Oak / Maple / Pine ฯลฯ'],
+    ['💧','รดน้ำทั้งพื้นที่','/debug water','รดน้ำพื้นพรวนทั้งหมดใน Location'],
+    ['🍄','Mushroom Trees','/debug mushroomtrees','เปลี่ยน Wild Trees ในพื้นที่เป็น Mushroom Trees'],
+  ]},
+  {id:'time',label:'⏱ เวลา/อากาศ',items:[
+    ['⏸️','หยุด / เดินเวลา','/debug pausetime','กดซ้ำเพื่อสลับ'],
+    ['🌙','ข้ามวัน','/debug sleep','จบวันปัจจุบัน'],
+    ['🕒','ตั้งเวลา 12:00','/debug time 1200','ตั้งเวลาเกมเป็น 12:00'],
+    ['🌤️','ตั้งฤดู Summer','/debug season summer','เปลี่ยนฤดูเป็น Summer'],
+    ['🌧️','ฝนตก','/debug rain','สลับฝน'],
+    ['💚','Green Rain','/debug greenrain','สลับ Green Rain'],
+  ]},
+  {id:'player',label:'🧑 ตัวละคร',items:[
+    ['❤️','HP เต็ม','/debug heal','ฟื้น Health เต็ม'],
+    ['⚡','Energy เต็ม','/debug energize','ฟื้น Energy เต็ม'],
+    ['🛡️','อมตะ','/debug invincible','สลับไม่รับดาเมจ'],
+    ['🏠','กลับบ้าน','/debug wh','วาร์ปกลับเตียง'],
+    ['🎒','กระเป๋า 36 ช่อง','/debug backpack 36','เพิ่มช่องกระเป๋า'],
+    ['💰','เงิน 1,000,000','/debug money 1000000','ตั้งเงินเป็น 1,000,000g'],
+  ]},
+  {id:'relationship',label:'❤️ ความสัมพันธ์',items:[
+    ['💞','หัวใจ Abigail 10','/debug friendship Abigail 2500','ตั้ง Friendship ของ Abigail เป็น 10 หัวใจ'],
+    ['💍','แต่งงานกับ NPC','/debug marry NPC','แทน NPC ด้วยชื่อ เช่น Abigail'],
+    ['💔','หย่า','/debug divorce','เริ่มกระบวนการหย่า'],
+    ['👶','ลูกโต 1 ขั้น','/debug child','เพิ่มอายุลูกคนแรก 1 ขั้น'],
+    ['🤰','มีลูกวันถัดไป','/debug pregnant','ตั้งเหตุการณ์มีลูก/รับเลี้ยงวันถัดไป'],
+    ['📍','หา NPC','/debug whereis NPC','แทน NPC ด้วยชื่อ เช่น Robin'],
+  ]},
+  {id:'skills',label:'⭐ สกิล/Quest',items:[
+    ['🌾','Farming XP +10000','/debug experience 0 10000','เพิ่ม Farming XP'],
+    ['🎣','Fishing XP +10000','/debug experience 1 10000','เพิ่ม Fishing XP'],
+    ['⛏️','Mining XP +10000','/debug experience 3 10000','เพิ่ม Mining XP'],
+    ['⚔️','Combat XP +10000','/debug experience 4 10000','เพิ่ม Combat XP'],
+    ['📜','ทำ Quest เสร็จ','/debug completequest ID','แทน ID ด้วย Quest ID'],
+    ['📋','เปิด Special Orders','/debug ordersboard','เปิดบอร์ด Special Orders'],
+  ]},
+  {id:'items',label:'🎒 ไอเทม',items:[
+    ['🔎','ค้น Item แบบชื่อ','/debug fin "ชื่อไอเทม"','Fuzzy Item Named'],
+    ['🆔','ดู ID ของของที่ถือ','/debug qualifiedId','แสดง Qualified Item ID'],
+    ['🛍️','ร้านไอเทมทั้งหมด','/debug iq ALL_ITEMS','เปิดร้านรวมไอเทมฟรีทั้งหมด'],
+    ['🪑','สุ่ม Furniture','/debug furniture','เพิ่ม Furniture แบบสุ่ม'],
+    ['📺','สุ่ม TV','/debug tv','เพิ่ม Budget/Plasma TV แบบสุ่ม'],
+    ['🎨','เปิด Dye Menu','/debug dyemenu','เปิดเมนู Dye Pots'],
+  ]},
+  {id:'build',label:'🏗 บ้าน/อาคาร',items:[
+    ['🏗️','สร้างอาคารเสร็จ','/debug fab','FinishAllBuilds — เสร็จทุกอาคารที่กำลังก่อสร้าง',true],
+    ['🛋️','Renovate บ้าน','/debug renovate','เปิดเมนูปรับปรุงบ้าน'],
+    ['⬆️','อัปเกรดบ้าน','/debug upgradehouse','เพิ่มระดับบ้าน 1 ขั้น'],
+    ['🧱','House Upgrade 3','/debug houseupgrade 3','ตั้งบ้านเป็นระดับ 3'],
+    ['🎨','ทาสีอาคาร','/debug bpm','เปิดเมนู Paint Building'],
+    ['🏡','เปลี่ยน Farm Map','/debug farmmap 0','เปลี่ยนประเภทฟาร์ม — มีผลถาวร',true],
+  ]},
+  {id:'community',label:'🌟 CC/เหมือง',items:[
+    ['⭐','Bundle ทั้งหมด','/debug allbundles','ทำ Bundle ทั้งหมดให้เสร็จ'],
+    ['🏛️','Complete CC','/debug completecc','ทำ Community Center เสร็จ'],
+    ['🪜','สร้างบันได','/debug ladder','สร้างบันได/หลุมในเหมือง'],
+    ['⛏️','ไปเหมืองชั้น 80','/debug minelevel 80','วาร์ปไปชั้นเหมือง'],
+    ['💀','Skull Difficulty','/debug scd 1','ตั้ง Skull Cavern difficulty'],
+    ['🚂','เรียกรถไฟ','/debug train','สร้าง Train ที่ Railroad'],
+  ]},
+  {id:'tools',label:'🧰 เครื่องมือ',items:[
+    ['📍','ดูพิกัด','/debug ppp','แสดงตำแหน่ง Tile ปัจจุบัน'],
+    ['🔄','รีโหลดพื้นที่','/debug r','ResetForPlayerEntry'],
+    ['🔎','ค้น Debug','/debug search ','เติมคำค้นต่อท้าย'],
+    ['🍷','เครื่องผลิตเสร็จ','/debug rfh X Y','แทน X Y ด้วยพิกัดเครื่อง'],
+    ['🧭','วาร์ป','/debug warp Location X Y','แทน Location / X / Y'],
+    ['👤','วาร์ปหา NPC','/debug wtc NPC','แทน NPC ด้วยชื่อ'],
+  ]},
+]
+let padGroup='farm';
+
+function renderCommandPad(){
+  const tabs=$('#padTabs'),grid=$('#quickGrid');
+  if(!tabs||!grid)return;
+  tabs.innerHTML=QUICK_GROUPS.map(g=>`<button class="padTab ${g.id===padGroup?'on':''}" type="button" data-pad-group="${g.id}">${g.label}</button>`).join('');
+  const group=QUICK_GROUPS.find(g=>g.id===padGroup)||QUICK_GROUPS[0];
+  grid.innerHTML=group.items.map(x=>`
+    <button class="quickBtn ${x[4]?'quickWarn':''}" type="button"
+      data-quick-command="${encodeURIComponent(x[2])}"
+      data-quick-title="${encodeURIComponent(x[1])}"
+      data-quick-desc="${encodeURIComponent(x[3])}">
+      <div class="quickTop"><span class="quickIcon">${x[0]}</span><span class="quickName">${x[1]}</span></div>
+      <div class="quickCmd">${esc(x[2])}</div>
+    </button>`).join('');
+}
+
+function fishPond(){
+  return [
+    card('Stone ×200','วัตถุดิบ Fish Pond','/item 390 200 0',{step:'1',badge:'Item'}),
+    card('Seaweed ×5','วัตถุดิบ Fish Pond','/item 152 5 0',{step:'2',badge:'Item'}),
+    card('Green Algae ×5','วัตถุดิบ Fish Pond','/item 153 5 0',{step:'3',badge:'Item'}),
+    card('ไปหา Robin','Construct Farm Buildings → Fish Pond แล้ววางตำแหน่งที่ต้องการ','',{step:'4',badge:'Robin'}),
+    card('สร้างเสร็จทันที','ใช้หลังจาก Robin วางโครงการแล้ว','/debug fab',{step:'5',badge:'Debug',warn:true,note:'FinishAllBuilds จะทำให้อาคารอื่นที่กำลังก่อสร้างเสร็จด้วย'})
+  ].join('')
+}
+
+function naturalCommand(s){
+  const l=norm(s);let m;
+  if(/สร้าง.*บ่อปลา|บ่อปลา|fish\s*pond/.test(l))return fishPond();
+  if(/(?:พืช|พืชผล|crop).*โต|โต.*(?:พืช|พืชผล)|grow\s*crops?/.test(l))return card('พืชโตทันที','เร่ง Crop ในพื้นที่ปัจจุบัน','/debug growcrops 999',{badge:'Farm',note:'มีผลกับ Crop ใน Location ที่กำลังยืนอยู่'});
+  if(/(?:สัตว์|animal).*โต|โต.*(?:สัตว์|animal)|grow\s*animals?/.test(l))return card('สัตว์โต','ทำสัตว์ในพื้นที่เป็นวัยผู้ใหญ่','/debug growanimals',{badge:'Farm'});
+  if(/fruit\s*tree.*โต|ต้นไม้ผลไม้.*โต|ต้นผลไม้.*โต|fruittrees/.test(l))return card('Fruit Tree โต','เพิ่มอายุ Fruit Tree ทุกต้นในพื้นที่ 1 เดือน','/debug fruittrees',{badge:'Farm'});
+  if(/wild\s*tree.*โต|ต้นไม้ป่า.*โต|oak.*โต|maple.*โต|pine.*โต|growwildtrees/.test(l))return card('Wild Tree โต','ทำ Wild Tree ในพื้นที่โตเต็มวัย','/debug growwildtrees',{badge:'Farm'});
+  if((m=s.match(/(?:เครื่อง|keg|jar|cask|machine).*?(?:เสร็จ|พร้อม|ready).*?(\d+)\s+(\d+)/i)))return card('เครื่องผลิตเสร็จ',`พิกัด ${m[1]}, ${m[2]}`,`/debug rfh ${m[1]} ${m[2]}`,{badge:'Machine',note:'จะพร้อมใน clock update ถัดไป'});
+  if(/tea\s*sapling|ต้นชา|ชา.*โต/.test(l))return card('Tea Sapling','ไม่มี Debug ที่เร่ง Tea Bush โดยตรง','/item 815 100 0',{badge:'Tea',warn:true,note:'ถ้าต้องการแค่ Tea Leaves: คำสั่งนี้เสก Tea Leaves ×100'});
+
+  if(/หยุดเวลา|pause\s*time|pausetime/.test(l))return card('หยุด / เดินเวลา','ใช้ซ้ำเพื่อสลับเวลาให้เดินต่อ','/debug pausetime',{badge:'Debug'});
+  if(/ฝนเขียว|green\s*rain/.test(l))return card('Green Rain','เรียก Green Rain','/debug greenrain',{badge:'Debug'});
+  if(/ฝนตก|^rain$/.test(l))return card('ฝนตก','เปลี่ยนสภาพอากาศเป็นฝน','/debug rain',{badge:'Debug'});
+  if(/กลับบ้าน|วาร์ปบ้าน|warp home/.test(l))return card('กลับบ้าน','วาร์ปกลับบ้าน','/debug wh',{badge:'Debug'});
+  if(/แต่งบ้าน|renovate/.test(l))return card('Renovate','เปิดเมนูปรับปรุงบ้าน','/debug renovate',{badge:'Debug'});
+  if(/รักษา|เลือดเต็ม|ฮีล|^heal$/.test(l))return card('ฟื้น Health','ฟื้นพลังชีวิต','/debug heal',{badge:'Debug'});
+  if(/พลังงานเต็ม|เติมพลังงาน|energize/.test(l))return card('เติม Energy','ฟื้นพลังงาน','/debug energize',{badge:'Debug'});
+  if(/อมตะ|invincible/.test(l))return card('Invincible','สลับโหมดไม่รับความเสียหาย','/debug invincible',{badge:'Debug'});
+  if(/ข้ามวัน|วันถัดไป|^นอน$|sleep|new\s*day/.test(l))return card('ข้ามวัน','จบวันปัจจุบัน','/debug sleep',{badge:'Debug'});
+  if(/ลูก.*โต|โต.*ลูก/.test(l))return card('ลูกโตขึ้น 1 ขั้น','ใช้กับลูกคนแรก','/debug child',{badge:'Debug'});
+  if((m=s.match(/(?:เงิน|money)\s*([0-9,]+)/i)))return card('ตั้งเงิน',`ตั้งเงินเป็น ${esc(m[1])}g`,`/debug money ${m[1].replace(/,/g,'')}`,{badge:'Debug'});
+  if((m=s.match(/(?:หัวใจ|heart)\s+([A-Za-z]+)\s+(\d+)/i))){const p=Number(m[2])*250;return card(`หัวใจ ${m[1]} ${m[2]}`,`Friendship ${p} points`,`/debug friendship ${m[1]} ${p}`,{badge:'Relationship'})}
+  if((m=s.match(/(?:ความเร็ว|speed)\s*(-?\d+)/i)))return card('ความเร็ว',`Speed ${m[1]}`,`/debug speed ${m[1]}`,{badge:'Debug'});
+  if((m=s.match(/(?:เวลา|time)\s*(\d{3,4})/i)))return card('ตั้งเวลา',`เวลาเกม ${m[1]}`,`/debug time ${m[1]}`,{badge:'Time'});
+  if((m=s.match(/(?:quest|เควส)\s*(\d+).*(?:เสร็จ|complete)/i))||(m=s.match(/(?:เสร็จ|complete).*(?:quest|เควส)\s*(\d+)/i)))return card('ทำ Quest ให้เสร็จ',`Quest ID ${m[1]}`,`/debug completequest ${m[1]}`,{badge:'Quest'});
+  return ''
+}
+
+function debugMatches(q){
+  q=norm(q);if(!q)return[];
+  return DEBUG_COMMANDS.map(r=>{
+    const syntax=String(r[0]||''),desc=String(r[1]||''),alias=String(r[2]||''),cat=String(r[3]||''),name=syntax.split(/\s+/)[0];
+    const hay=norm([syntax,desc,alias,cat].join(' '));let score=99;
+    if(norm(name)===q||norm(alias)===q)score=0;
+    else if(norm(syntax).startsWith(q))score=1;
+    else if(hay.includes(q))score=2;
+    return{syntax,desc,alias,cat,name,score}
+  }).filter(x=>x.score<99).sort((a,b)=>a.score-b.score||a.syntax.localeCompare(b.syntax)).slice(0,80)
+}
+function renderDebug(rows){
+  return rows.map(x=>{
+    const risky=isDangerousDebug(x.syntax);
+    const baseNote=x.alias?`Alias: ${esc(x.alias)} • แทนค่าที่อยู่ใน <...> หรือ [...] ก่อนใช้`:'แทนค่าที่อยู่ใน <...> หรือ [...] ก่อนใช้';
+    return card(x.name,x.desc||`Syntax: ${esc(x.syntax)}`,`/debug ${x.syntax.replace(/^debug\s+/i,'')}`,{
+      badge:(risky?'⚠️ ':'')+(x.cat||'Debug'),
+      warn:risky,
+      note:risky?'⚠️ คำสั่งนี้อาจแก้/ลบข้อมูลถาวรในเซฟ • '+baseNote:baseNote
+    })
+  }).join('')
+}
+
+function thaiItemAlias(v){
+  const a={
+    'แท่งอิริเดียม':'Iridium Bar','อิริเดียมบาร์':'Iridium Bar',
+    'ดาบกาแล็กซี':'Galaxy Sword','ดาบแกแล็กซี':'Galaxy Sword',
+    'ไม้':'Wood','หิน':'Stone','ถ่านหิน':'Coal','ไม้เนื้อแข็ง':'Hardwood','ฮาร์ดวูด':'Hardwood',
+    'แท่งทองแดง':'Copper Bar','แท่งเหล็ก':'Iron Bar','แท่งทอง':'Gold Bar','แท่งกัมมันตรังสี':'Radioactive Bar',
+    'พริสมาติก':'Prismatic Shard','พริสมาติกชาร์ด':'Prismatic Shard','แบตเตอรี่':'Battery Pack',
+    'สาหร่าย':'Seaweed','สาหร่ายเขียว':'Green Algae'
+  };
+  return a[norm(v)]||v;
+}
+async function fetchCategory(key){
+  if(itemCache.has(key))return itemCache.get(key);
+  const meta=ITEM_CATEGORIES[key];
+  const urls=[
+    `https://mateusaquino.github.io/stardewids/dist/${meta.file}`,
+    `https://raw.githubusercontent.com/MateusAquino/stardewids/main/dist/${meta.file}`
+  ];
+  let lastErr='';
+  for(const url of urls){
+    try{
+      const r=await fetch(url,{cache:'force-cache'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const raw=await r.json();
+      const rows=raw.map(item=>{
+        const id=String(item?.id??'');
+        const names=item?.names||{};
+        const name=names['data-en-US']||Object.values(names).find(Boolean)||id;
+        return{name,id,qualifiedId:meta.prefix+id,category:key,categoryLabel:meta.label};
+      });
+      itemCache.set(key,rows);
+      return rows;
+    }catch(e){lastErr=e.message||String(e)}
+  }
+  throw new Error(`โหลด ${meta.file} ไม่สำเร็จ (${lastErr})`)
+}
+function parseItemRequest(text){
+  let name=text.trim(),qty=Math.max(1,Math.min(999,Number($('#qty').value)||1));
+  const m=name.match(/^(.*?)\s+(\d{1,4})$/);
+  if(m&&m[1].trim()){name=m[1].trim();qty=Math.max(1,Math.min(999,Number(m[2])))}
+  return{name:thaiItemAlias(name),qty}
+}
+function itemCommand(x,qty){
+  const quality=Number($('#quality').value)||0;
+  return `/item ${x.qualifiedId} ${qty} ${quality}`
+}
+function renderItems(items,qty,append=false){
+  if(!items?.length){if(!append)results.innerHTML='<div class="empty">ไม่พบ Item ID</div>';return}
+  const html=items.map(x=>card(x.name,`${esc(x.categoryLabel)} • จำนวน ${qty}`,itemCommand(x,qty),{
+    badge:'Item ID',ids:[`เลข Item: ${x.id}`,`Qualified ID: ${x.qualifiedId}`]
+  })).join('');
+  if(append)results.insertAdjacentHTML('beforeend',html);else results.innerHTML=html
+}
+async function searchItems(text){
+  const parsed=parseItemRequest(text), q=norm(parsed.name);
+  loading('กำลังค้น Item ID จาก Stardew IDs…');setStatus('กำลังค้น Item ID…');
+  try{
+    const keys=$('#category').value==='all'?Object.keys(ITEM_CATEGORIES):[$('#category').value];
+    const exact=[],starts=[],partial=[];
+    for(const key of keys){
+      const rows=await fetchCategory(key);
+      for(const x of rows){
+        const n=norm(x.name),id=norm(x.id),qid=norm(x.qualifiedId);
+        if(n===q||id===q||qid===q)exact.push(x);
+        else if(n.startsWith(q))starts.push(x);
+        else if(n.includes(q)||qid.includes(q))partial.push(x)
+      }
+      if(exact.length)break
+    }
+    const seen=new Set();
+    const items=[...exact,...starts,...partial].filter(x=>{
+      const k=x.category+'|'+x.qualifiedId;if(seen.has(k))return false;seen.add(k);return true
+    }).slice(0,80);
+    renderItems(items,parsed.qty);setStatus(items.length?`พบ Item ${items.length} รายการ • Stardew IDs`:'ไม่พบ Item ID')
+  }catch(err){
+    results.innerHTML=`<div class="empty error">ค้น Item ID ไม่สำเร็จ<br><small>${esc(err.message||err)}</small></div>`;
+    setStatus('เกิดข้อผิดพลาด')
+  }
+}
+async function browse(reset){
+  let cat=$('#category').value;if(cat==='all')cat='objects';
+  if(reset){browseOffset=0;loading('กำลังโหลดรายการ Item ID…')}
+  try{
+    if(reset||!browseRows.length)browseRows=await fetchCategory(cat);
+    const slice=browseRows.slice(browseOffset,browseOffset+60);
+    const qty=Math.max(1,Math.min(999,Number($('#qty').value)||1));
+    if(reset)results.innerHTML='';
+    renderItems(slice,qty,!reset);
+    browseOffset+=slice.length;setStatus(`${ITEM_CATEGORIES[cat].label}: แสดง ${browseOffset} / ${browseRows.length}`);
+    document.getElementById('more')?.remove();
+    if(browseOffset<browseRows.length){
+      results.insertAdjacentHTML('beforeend','<button id="more" class="browse" type="button">โหลดเพิ่ม</button>');
+      $('#more').onclick=()=>browse(false)
+    }
+  }catch(err){
+    results.innerHTML=`<div class="empty error">โหลดรายการไม่สำเร็จ<br><small>${esc(err.message||err)}</small></div>`
+  }
+}
+
+const DANGEROUS_DEBUG=new Set([
+  'clear','clearmail','clearmuseum','clearquests','clearchildren','deletearch','perfection',
+  'removebuildings','removeobjects','removefurniture','removedirt','removeterrainfeatures',
+  'resetworldstate','resetjunimonotes','resetmines','farmmap','setupfarm','setupbigfarm',
+  'setupfishpondfarm','forcebuild','darktalisman','lantern'
+]);
+function isDangerousDebug(syntax){
+  return DANGEROUS_DEBUG.has(String(syntax||'').split(/\s+/)[0].toLowerCase());
+}
+function allDebugRows(cat='all'){
+  return DEBUG_COMMANDS.map(r=>{
+    const syntax=String(r[0]||''),desc=String(r[1]||''),alias=String(r[2]||''),category=String(r[3]||''),name=syntax.split(/\s+/)[0];
+    return{syntax,desc,alias,cat:category,name,score:0};
+  }).filter(x=>cat==='all'||x.cat===cat);
+}
+function populateDebugCategories(){
+  const sel=$('#debugCategory'); if(!sel)return;
+  const cats=[...new Set(DEBUG_COMMANDS.map(r=>String(r[3]||'')).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'th'));
+  sel.innerHTML='<option value="all">ทุกหมวด • 349 คำสั่ง</option>'+cats.map(c=>'<option value="'+esc(c)+'">'+esc(c)+' • '+DEBUG_COMMANDS.filter(r=>String(r[3]||'')===c).length+'</option>').join('');
+}
+function browseDebug(){
+  const cat=$('#debugCategory')?.value||'all';
+  const rows=allDebugRows(cat);
+  results.innerHTML=renderDebug(rows);
+  setStatus((cat==='all'?'Debug ทั้งหมด':cat)+': '+rows.length+' คำสั่ง');
+}
+
+function run(){
+  const s=$('#query').value.trim();if(!s){results.innerHTML='<div class="empty">พิมพ์สิ่งที่ต้องการด้านบนได้เลย</div>';return}
+  if(mode==='command'){
+    const n=naturalCommand(s);if(n){results.innerHTML=n;setStatus('พบคำสั่งพร้อมใช้');return}
+    const d=debugMatches(s);results.innerHTML=d.length?renderDebug(d):card('ค้นหาในเกม','ไม่พบตรง ๆ ลองให้เกมค้นคำสั่งที่เกี่ยวข้อง',`/debug search ${s}`,{badge:'Search'});setStatus(d.length?`พบ Debug ${d.length} รายการ`:'ไม่พบตรงกัน');return
+  }
+  if(mode==='item'){searchItems(s);return}
+  const natural=naturalCommand(s);if(natural){results.innerHTML=natural;setStatus('พบคำสั่งพร้อมใช้');return}
+  const d=debugMatches(s);
+  if(d.length&&d[0].score<=1&&!/\s+\d+$/.test(s)){results.innerHTML=renderDebug(d);setStatus(`พบ Debug ${d.length} รายการ`);return}
+  searchItems(s)
+}
+
+
+$('#padTabs').onclick=e=>{
+  const b=e.target.closest('[data-pad-group]');if(!b)return;
+  padGroup=b.dataset.padGroup;renderCommandPad();
+};
+$('#quickGrid').onclick=e=>{
+  const b=e.target.closest('[data-quick-command]');if(!b)return;
+  const cmd=decodeURIComponent(b.dataset.quickCommand);
+  const title=decodeURIComponent(b.dataset.quickTitle);
+  const desc=decodeURIComponent(b.dataset.quickDesc);
+  results.innerHTML=card(title,desc,cmd,{badge:'Quick'});
+  setStatus(`Copy แล้ว: ${title}`);
+  copyText(cmd,b);
+};
+renderCommandPad();
+
+populateDebugCategories();
+$('#debugBrowseBtn').onclick=()=>browseDebug();
+$('#debugCategory').onchange=()=>browseDebug();
+
+$('#searchForm').onsubmit=e=>{e.preventDefault();run()};
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
+  mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));
+  $('#itemTools').style.display=(mode==='item')?'block':'none';
+  setStatus(mode==='item'?'โหมด Item ID • Stardew IDs':mode==='command'?'โหมดคำสั่ง • Debug 349 รายการ':'พร้อมใช้งาน • อัตโนมัติ')
+});
+document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{$('#query').value=b.dataset.q;run()});
+$('#browseBtn').onclick=()=>browse(true);
+$('#clearBtn').onclick=()=>{$('#query').value='';results.innerHTML='<div class="empty">พิมพ์สิ่งที่ต้องการด้านบนได้เลย</div>';setStatus('พร้อมใช้งาน')};
+results.onclick=e=>{const b=e.target.closest('[data-copy]');if(b)copyText(decodeURIComponent(b.dataset.copy),b)};
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>
